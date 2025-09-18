@@ -101,7 +101,7 @@
 
 
 ```markdown
-            --GIT (Magit in Emacs)--            
+            ##--GIT (Magit in Emacs)--            
 ```
 
 GIT (Magit in Emacs)
@@ -214,12 +214,14 @@ GIT (Magit in Emacs)
 --------------------------------------------------
 
 ### Rebase:
+```text
 r u -> 1.) take commits from some branch and insert them into the current branch  
        2.) ediff the conflicts  
        3.) r r  
        4.) do it until conflicts disappear  
        5.) then the window "Unmerged into main (1)" will remain until I merge (I don’t have to immediately)
-  
+```
+
 // if I don’t merge, I can continue working as I want  
 // then switch to main, do (m m)  
 // optionally then in (l l) go to the first commit of all our possible commits,  
@@ -231,12 +233,13 @@ r a -> abort the entire rebase
 --------------------------------------------------
 
 ### Squashing commits in interactive rebase:
+```text
 r i -> rebase commits, merge commits together, most often a fix/rebase commit.  
        move in (l l) to the commit I want to rebase so that the TODO looks like this:  
 pick  1b886da "main message"  
 fixup a218acd "fix commit after (c f)"  
 // so that the fixup is below
-
+```
 --------------------------------------------------
 
 ### The difference between merge and rebase is that merge creates a “bubble” and rebase does not:
