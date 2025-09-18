@@ -271,7 +271,7 @@ ___________________________________________
 
 **FF MERGE:**  
 - lze použít jen pokud je main předek feature (feature není pozadu)  
-- git se o to snaží vždy, pokud to chci vynutit, tak při mergi zapnout --ff-only  
+- git se o to snaží vždy, pokud to chceš vynutit, tak při mergi zapnout ***--ff-only***  
 
 ```text
 před:  main:    A---B---C
