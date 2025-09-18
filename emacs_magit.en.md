@@ -96,15 +96,10 @@
 
 ## COMMANDS
 - Ctrl + J -> If I don’t want the recommended option (the highlighted one)
-
-
-
-
-
-> ## --GIT (Magit in Emacs)--            
-
-GIT (Magit in Emacs)
-
+  
+  
+> ## --GIT (Magit in Emacs)--    
+  
 ### Basic terms:
 - origin/main -> server version
 - main        -> local version
@@ -200,14 +195,14 @@ GIT (Magit in Emacs)
 ### Blame:
 - M-x magit-blame (in the open file)  
 - ***n***/***p*** -> next/previous hunk  
-- RET -> jump to the commit in Magit log  
-- TAB -> detail for the line
+- ***RET*** -> jump to the commit in Magit log  
+- ***TAB*** -> detail for the line
 
 --------------------------------------------------
 
 ### The rest:
 - ***l l*** -> commit tree  
-- in magit-status Ctrl + Shift + Tab -> magit-section-cycle  
+- in magit-status ***Ctrl + Shift + Tab*** -> magit-section-cycle  
 - M-x + smerge-ediff -> launch a proper ediff on the open diff file
 
 --------------------------------------------------
