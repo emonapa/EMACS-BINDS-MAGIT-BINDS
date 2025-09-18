@@ -1,4 +1,3 @@
-Alt gr + A -> ~
 
 ## SAVING & OPENING
 - Ctrl + X, Ctrl + S -> save the current file (save-buffer)
@@ -91,6 +90,7 @@ Alt gr + A -> ~
 - X -> confirm
 
 - g -> refresh dired
+- Alt gr + A -> ~
 
 -------------------------------------------------------------------------
 
