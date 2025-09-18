@@ -100,9 +100,10 @@
 
 
 
---------------------------------------------------
-|            --GIT (Magit in Emacs)--            |
---------------------------------------------------
+```markdown
+            --GIT (Magit in Emacs)--            
+```
+
 GIT (Magit in Emacs)
 
 ### Basic terms:
@@ -241,17 +242,19 @@ fixup a218acd "fix commit after (c f)"
 ### The difference between merge and rebase is that merge creates a “bubble” and rebase does not:
 
 **MERGE:**  
+```
 before:  main:    A---B----C  
                      \  
           feature:    D--E  
                 ...  
 after:   main:    A---B----C--M  
                      \     /  
-          feature:    D--E
-
+          feature:    D--E 
+```
 ___________________________________________
 
 **REBASE:**  
+```
 before:  main:    A---B----C  
                      \  
           feature:    D--E  
@@ -259,13 +262,14 @@ before:  main:    A---B----C
 after:   main:    A---B----C  
                           \  
           feature:         D'--E'
-
+```
 ___________________________________________
 
 **FF MERGE:**  
 - can be used only if main is the ancestor of feature (feature is not behind)  
 - git always tries to do this; if I want to enforce it, enable --ff-only during merge
 
+```
 before:  main:    A---B---C  
                           \  
           feature:         D'--E'  
@@ -273,5 +277,5 @@ before:  main:    A---B---C
 after:   main:    A---B---C--D'--E'  
                                     
           feature:                 E'
-
+```
 --------------------------------------------------
