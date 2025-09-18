@@ -99,7 +99,9 @@
 - Ctrl + J -> If I don’t want the recommended option (the highlighted one)  
 <br>
 <br>
-> ## --GIT (Magit in Emacs)--<br>  
+
+> ## --GIT (Magit in Emacs)--<br>
+
 ### Basic terms:
 - origin/main -> server version
 - main        -> local version
