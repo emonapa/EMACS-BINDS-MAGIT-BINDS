@@ -266,7 +266,7 @@ ___________________________________________
 
 **FF MERGE:**  
 - can be used only if main is the ancestor of feature (feature is not behind)  
-- git always tries to do this; if I want to enforce it, enable ***--ff-only*** during merge
+- git always tries to do this; if you want to enforce it, enable ***--ff-only*** during merge
 
 ```
 before:  main:    A---B---C  
