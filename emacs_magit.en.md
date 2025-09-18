@@ -100,9 +100,8 @@
 
 
 
-```markdown
-            ##--GIT (Magit in Emacs)--            
-```
+
+> ## --GIT (Magit in Emacs)--            
 
 GIT (Magit in Emacs)
 
@@ -120,94 +119,94 @@ GIT (Magit in Emacs)
 3.) files...  
 4.) Ctrl + c, m, s -> magit-status  
 5.) stage a file (s) -> commit (c c)  
-6.) add remote: M -> a -> name “origin” -> SSH URL  
-7.) P u -> sets upstream to origin/main
+6.) add remote: ***M*** -> ***a*** -> name “origin” -> SSH URL  
+7.) ***P u*** -> sets upstream to origin/main
 
 --------------------------------------------------
 
 ### Connecting a local repo to GitHub:
 1.) magit status (Ctrl + c, m, s)  
-2.) M (capital M)  
-3.) a -> name, e.g. “origin”, paste SSH URL // Remote set  
-4.) P u  
+2.) ***M*** (capital M)  
+3.) ***a*** -> name, e.g. “origin”, paste SSH URL // Remote set  
+4.) ***P u***  
 5.) confirm that it should set origin/main
 
 --------------------------------------------------
 
 ### Stage/commit:
-- s   -> stage file  
-- S   -> stage all  
-- u   -> unstage  
-- U   -> unstage all  
+- ***s***   -> stage file  
+- ***S***   -> stage all  
+- ***u***   -> unstage  
+- ***U***   -> unstage all  
 
-- c c -> new commit  
-- c a -> amend (add staged changes to the last commit)  
-- c w -> reword (change only the last commit’s message)  
-- c f -> fixup commit  
-- v   -> revert (reverts a commit by creating a new commit)
+- ***c c*** -> new commit  
+- ***c a*** -> amend (add staged changes to the last commit)  
+- ***c w*** -> reword (change only the last commit’s message)  
+- ***c f*** -> fixup commit  
+- ***v***   -> revert (reverts a commit by creating a new commit)
 
 --------------------------------------------------
 
 ### Branching:
-- b b -> switch branch  
-- b c -> create a new branch  
-- b u -> set upstream
+- ***b b*** -> switch branch  
+- ***b c*** -> create a new branch  
+- ***b u*** -> set upstream
 
 --------------------------------------------------
 
 ### Push/pull/fetch:
-- P u  -> push to upstream  
-- P -f -> push --force-with-lease (only if the remote hasn’t changed)  
-- f    -> fetch  
-- F    -> pull (fetch + merge/rebase)
+- ***P u***  -> push to upstream  
+- ***P -f*** -> push --force-with-lease (only if the remote hasn’t changed)  
+- ***f***    -> fetch  
+- ***F***    -> pull (fetch + merge/rebase)
 
 --------------------------------------------------
 
 ### Rebase/merge:
-- r u -> rebase onto upstream  
-- r m -> rebase onto a specific branch  
-- r i -> interactive rebase (squash/fixup)  
-- r r -> continue (after conflict)  
-- r a -> abort  
+- ***r u*** -> rebase onto upstream  
+- ***r m*** -> rebase onto a specific branch  
+- ***r i*** -> interactive rebase (squash/fixup)  
+- ***r r*** -> continue (after conflict)  
+- ***r a*** -> abort  
 
-- m m -> merge  
-- m s -> squash merge (turn all commits into a single commit)
+- ***m m*** -> merge  
+- ***m s*** -> squash merge (turn all commits into a single commit)
 
 --------------------------------------------------
 
 ### Reset:
-- X h -> reset (hard) to another commit (locally, discards changes)
+- ***X h*** -> reset (hard) to another commit (locally, discards changes)
 
 --------------------------------------------------
 
 ### Stash:
-- z z -> save stash  
-- z a -> apply the last stash  
-- z p -> pop (apply + remove the top stash)  
-- z l -> list stashes
+- ***z z*** -> save stash  
+- ***z a*** -> apply the last stash  
+- ***z p*** -> pop (apply + remove the top stash)  
+- ***z l*** -> list stashes
 
 --------------------------------------------------
 
 ### Conflicts (rebase/merge):
-- E m -> Ediff Merge on a file in Unmerged  
-- a/b -> choose a side  
-- X c -> edit manually  
-- q   -> exit Ediff  
-- (s) -> stage the fixed file  
-- r r -> rebase continue
+- ***E m*** -> Ediff Merge on a file in Unmerged  
+- ***a***/***b*** -> choose a side  
+- ***X c*** -> edit manually  
+- ***q***   -> exit Ediff  
+- (***s***) -> stage the fixed file  
+- ***r r*** -> rebase continue
 
 --------------------------------------------------
 
 ### Blame:
 - M-x magit-blame (in the open file)  
-- n/p -> next/previous hunk  
+- ***n***/***p*** -> next/previous hunk  
 - RET -> jump to the commit in Magit log  
 - TAB -> detail for the line
 
 --------------------------------------------------
 
 ### The rest:
-- l l -> commit tree  
+- ***l l*** -> commit tree  
 - in magit-status Ctrl + Shift + Tab -> magit-section-cycle  
 - M-x + smerge-ediff -> launch a proper ediff on the open diff file
 
@@ -220,15 +219,15 @@ r u -> 1.) take commits from some branch and insert them into the current branch
        3.) r r  
        4.) do it until conflicts disappear  
        5.) then the window "Unmerged into main (1)" will remain until I merge (I don’t have to immediately)
-```
 
 // if I don’t merge, I can continue working as I want  
 // then switch to main, do (m m)  
 // optionally then in (l l) go to the first commit of all our possible commits,  
 // and then switch all the ones below to "squash" using (s)
+```
 
-c w -> change the last commit’s message  
-r a -> abort the entire rebase
+***c w*** -> change the last commit’s message  
+***r a*** -> abort the entire rebase
 
 --------------------------------------------------
 
