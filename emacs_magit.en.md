@@ -242,25 +242,25 @@ fixup a218acd "fix commit after (c f)"
 
 **MERGE:**  
 ```
-before:  main:    A---B----C  
-                     \  
-          feature:    D--E  
-                ...  
-after:   main:    A---B----C--M  
-                     \     /  
-          feature:    D--E 
+before:  main:       A---B----C
+                          \
+         feature:          D--E
+             ...
+after:   main:       A---B----C---M
+                          \     /
+         feature:          D--E
 ```
 ___________________________________________
 
 **REBASE:**  
 ```
-before:  main:    A---B----C  
-                     \  
-          feature:    D--E  
-                ...  
-after:   main:    A---B----C  
+before:  main:       A---B----C  
                           \  
-          feature:         D'--E'
+         feature:          D--E  
+                ...  
+after:   main:       A---B----C  
+                               \  
+         feature:               D'--E'
 ```
 ___________________________________________
 
@@ -269,12 +269,12 @@ ___________________________________________
 - git always tries to do this; if you want to enforce it, enable ***--ff-only*** during merge
 
 ```
-before:  main:    A---B---C  
-                          \  
-          feature:         D'--E'  
+before:  main:       A---B----C  
+                               \  
+         feature:               D'--E'  
                 ...  
-after:   main:    A---B---C--D'--E'  
+after:   main:       A---B---C--D'--E'  
                                     
-          feature:                 E'
+         feature:                   E'
 ```
 --------------------------------------------------
