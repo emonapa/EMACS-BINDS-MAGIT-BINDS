@@ -1,6 +1,6 @@
-> ## --Bind in EMACS--  
-  
-  
+> ## --Binds in EMACS--<br>
+<br>
+<br>
 ## SAVING & OPENING
 - Ctrl + X, Ctrl + S -> save the current file (save-buffer)
 - Ctrl + X, Ctrl + F -> open file
@@ -100,9 +100,9 @@
 - Ctrl + J -> If I don’t want the recommended option (the highlighted one)  
   
   
-> ## --GIT (Magit in Emacs)--  
-  
-  
+> ## --GIT (Magit in Emacs)--<br>
+<br>
+<br>  
 ### Basic terms:
 - origin/main -> server version
 - main        -> local version
