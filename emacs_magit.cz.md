@@ -97,7 +97,8 @@
 -------------------------------------------------------------------------
 
 ## COMMANDY
-- Ctrl + J -> Pokud nechci doporučenou nabídku (tu zvýrazněnou)  
+- Ctrl + J    -> Pokud nechci doporučenou nabídku (tu zvýrazněnou)  
+- Ctrl + C, p -> Zapne markdown livestream v druhém okně
 
 <br>
 <br>
@@ -279,6 +280,6 @@ před:  main:    A---B---C
        feature:            D'--E'
              ...
 po:    main:    A---B---C--D'--E'
-                                 
+
        feature:                E'
 ```

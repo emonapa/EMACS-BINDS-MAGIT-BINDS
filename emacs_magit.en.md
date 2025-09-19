@@ -96,7 +96,9 @@
 -------------------------------------------------------------------------
 
 ## COMMANDS
-- Ctrl + J -> If I don’t want the recommended option (the highlighted one)  
+- Ctrl + J    -> If I don’t want the recommended option (the highlighted one)  
+- Ctrl + C, p -> Turning on markdown livestream in other window
+
 <br>
 <br>
 
@@ -274,7 +276,7 @@ before:  main:       A---B----C
          feature:               D'--E'  
                 ...  
 after:   main:       A---B---C--D'--E'  
-                                    
+
          feature:                   E'
 ```
 --------------------------------------------------
