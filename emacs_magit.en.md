@@ -43,7 +43,6 @@
 - Ctrl + C, H, D -> browse folders/files (Helm “find files”)
 - Ctrl + C, H, R -> recently opened files (recent)
 - Ctrl + C, H, S -> search by file content (ripgrep)
-- Ctrl + C, T -> open a new vertical window with a terminal
 - Ctrl + C, D -> duplicate the current line (copy and paste it below)
 
 -------------------------------------------------------------------------
@@ -96,6 +95,7 @@
 -------------------------------------------------------------------------
 
 ## COMMANDS
+- Ctrl + C, T -> open a new vertical window with a terminal
 - Ctrl + J    -> If I don’t want the recommended option (the highlighted one)  
 - Ctrl + C, p -> Turning on markdown livestream in other window
 
