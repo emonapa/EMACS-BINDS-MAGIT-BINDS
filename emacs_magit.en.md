@@ -95,7 +95,7 @@
 -------------------------------------------------------------------------
 
 ## COMMANDS
-- Ctrl + C, T -> open a new vertical window with a terminal
+- Ctrl + X, T -> open a new vertical window with a terminal
 - Ctrl + J    -> If I don’t want the recommended option (the highlighted one)  
 - Ctrl + C, p -> Turning on markdown livestream in other window
 
