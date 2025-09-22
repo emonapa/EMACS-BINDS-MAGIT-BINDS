@@ -43,7 +43,6 @@
 - Ctrl + C, H, D -> procházení složek / souborů (Helm „find files“)  
 - Ctrl + C, H, R -> naposledy otevřené soubory (recent)  
 - Ctrl + C, H, S -> hledá podle obsahu souborů (ripgrep)  
-- Ctrl + C, T -> otevře nové vertikální okno a v něm terminál  
 - Ctrl + C, D -> duplikuje aktuální řádek (zkopíruje a vloží pod něj)  
 
 -------------------------------------------------------------------------
@@ -97,6 +96,7 @@
 -------------------------------------------------------------------------
 
 ## COMMANDY
+- Ctrl + X, T -> otevře nové vertikální okno a v něm terminál  
 - Ctrl + J    -> Pokud nechci doporučenou nabídku (tu zvýrazněnou)  
 - Ctrl + C, p -> Zapne markdown livestream v druhém okně
 
