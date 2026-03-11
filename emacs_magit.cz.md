@@ -23,7 +23,9 @@
 - Alt + W -> kopírovat (do kill-ringu)  
 - Ctrl + W -> vyjmout (cut)  
 - Ctrl + Y -> vložit (yank)  
-- Ctrl + A -> označit celý buffer  
+- Ctrl + A -> označit celý buffer
+- Alt + H -> označit paragraf
+- Alt + K -> smazat paragraf
 
 -------------------------------------------------------------------------
 
