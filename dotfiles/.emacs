@@ -106,7 +106,11 @@
 ;;; -------------------------------
 (setq display-line-numbers-type t)   ;; t = absolutni, 'relative = relativni
 (when (version<= "26.0.50" emacs-version)
-  (global-display-line-numbers-mode 1))
+  (global-display-line-numbers-mode 1)
+  (dolist (hook '(vterm-mode-hook
+                  dired-mode-hook
+                  term-mode-hook))
+    (add-hook hook (lambda () (display-line-numbers-mode 0)))))
 
 
 ;;; -------------------------------
@@ -123,12 +127,23 @@
   (when-let* ((name (seq-find (lambda (f) (find-font (font-spec :name f))) fonts)))
     (add-to-list 'default-frame-alist `(font . ,name))))
 
+;(rc/set-first-available-font
+; '("Iosevka-20"
+;   "JetBrainsMono Nerd Font-12"
+;   "JetBrains Mono-12"
+;   "FiraCode-12"
+;   "DejaVu Sans Mono-12"))
+
 (rc/set-first-available-font
- '("Iosevka-20"
-   "JetBrainsMono Nerd Font-12"
+ '(
+
    "JetBrains Mono-12"
    "FiraCode-12"
    "DejaVu Sans Mono-12"))
+
+
+(set-frame-font "JetBrains Mono-12" nil t)
+(add-to-list 'default-frame-alist '(font . "JetBrains Mono-12"))
 
 (tool-bar-mode 0)
 (menu-bar-mode 0)
@@ -143,15 +158,19 @@
 ;;(rc/require-theme 'gruber-darker)
 ;;(set-background-color "#1E1E1E")
 ;; (rc/require-theme 'zenburn)
-;;(setq catppuccin-flavor 'macchiato) ;; nebo 'latte, 'frappe, 'macchiato
-;;(load-theme 'catppuccin :no-confirm)
-;;(catppuccin-set-color 'base "#1F1F1F")
-;;(catppuccin-reload)
-
 
 (load-theme 'kanagawa-wave t)
 ;; barva normalni fontu na bilou
-(set-face-attribute 'default nil :foreground "#D8D8D8")
+;;(set-face-attribute 'default nil :foreground "#D4D4D4")
+(set-face-attribute 'default nil :foreground "#F2F2F2")
+
+(set-face-attribute 'font-lock-keyword-face nil :foreground "#C084FC")
+(set-face-attribute 'font-lock-function-name-face nil :foreground "#60A5FA")
+(set-face-attribute 'font-lock-variable-name-face nil :foreground "#E879F9")
+(set-face-attribute 'font-lock-string-face nil :foreground "#86EFAC")
+(set-face-attribute 'font-lock-type-face nil :foreground "#2DD4BF")
+
+
 
 ;; Priklad upravy faces pro zenburn (az kdyz je nacten):
 ;;(eval-after-load 'zenburn-theme
