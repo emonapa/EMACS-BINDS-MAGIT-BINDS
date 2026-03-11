@@ -2,14 +2,15 @@
 ;;; Václav: Emacs init (s MELPA & auto-installem)
 ;;; -------------------------------
 
-;; Ukládej custom nastavení do separátního souboru
+;; Ukladej custom nastaveni do separatniho souboru
 (setq custom-file "~/.emacs.custom.el")
 
-;; Repozitáře s balíčky (GNU, NonGNU, MELPA)
+;; Repozitare s balicky (GNU, NonGNU, MELPA)
 (require 'package)
 (setq package-archives
       '(("gnu"     . "https://elpa.gnu.org/packages/")
         ("nongnu"  . "https://elpa.nongnu.org/nongnu/")
+        ("melpa-stable" . "https://stable.melpa.org/packages/")
         ("melpa"   . "https://melpa.org/packages/")))
 (unless package--initialized (package-initialize))
 (unless package-archive-contents (package-refresh-contents))
@@ -17,7 +18,7 @@
 (require 'subr-x)
 (require 'seq)
 
-;; Pomocné „fallback“ funkce, kdyby ještě nebyl načten rc.el
+;; Pomocne „fallback“ funkce, kdyby jeste nebyl nacten rc.el
 (unless (fboundp 'rc/require)
   (defun rc/require (&rest pkgs)
     (dolist (pkg pkgs)
@@ -27,13 +28,34 @@
 
 (unless (fboundp 'rc/require-theme)
   (defun rc/require-theme (theme)
-    "Nainstaluje balíček <theme>-theme a načte theme."
+    "Nainstaluje balicek <theme>-theme a nacte theme."
     (let* ((pkg (intern (format "%s-theme" theme))))
       (unless (package-installed-p pkg)
         (ignore-errors (package-install pkg)))
       (load-theme theme t)
-      ;; hned po load-theme jednorázově oprav faces:
+      ;; hned po load-theme jednorazove oprav faces:
       (when (fboundp 'rc/fix-nil-faces) (rc/fix-nil-faces)))))
+
+(defun my/python-indent-setup ()
+  ;; mezery místo TAB
+  (setq-local indent-tabs-mode nil)
+  (setq-local tab-width 4)
+  (setq-local python-indent-offset 4)
+
+  ;; vypnout python "chytrý" indent engine
+  (setq-local python-indent-guess-indent-offset nil)
+  (setq-local python-indent-guess-indent-offset-verbose nil)
+
+  ;; ENTER nesmí autoindentovat
+  (electric-indent-local-mode -1)
+
+  ;; TAB = jen 4 mezery, žádná magie
+  (setq-local tab-always-indent nil)
+)
+
+(add-hook 'python-mode-hook #'my/python-indent-setup)
+
+
 
 (defun rc/fix-nil-faces ()
   (dolist (f '(tab-bar-tab-inactive tab-bar-tab highlight secondary-selection fringe region))
@@ -41,15 +63,12 @@
       (let ((bg (face-attribute f :background nil t))
             (fg (face-attribute f :foreground nil t))
             (inh (face-attribute f :inherit   nil t)))
-        ;; Opravuj jen skutečné nil – jinak nech barvy tématu na pokoji
+        ;; Opravuj jen skutecne nil – jinak nech barvy tematu na pokoji
         (when (null bg)  (set-face-attribute f nil :background 'unspecified))
         (when (null fg)  (set-face-attribute f nil :foreground 'unspecified))
         (when (null inh) (set-face-attribute f nil :inherit   'unspecified))))))
 
-
-
-
-;; Auto-instalace používaných balíčků (včetně helm-git-grep)
+;; Auto-instalace pouzivanych balicku (vcetne helm-git-grep)
 (let ((packages-to-install
        '(helm helm-git-grep helm-ls-git helm-rg
          smex ido-completing-read+
@@ -57,7 +76,7 @@
          yasnippet company
          haskell-mode typescript-mode tide flycheck
          proof-general move-text
-         gruber-darker-theme zenburn-theme
+         gruber-darker-theme zenburn-theme catppuccin-theme kanagawa-theme
          yaml-mode tuareg lua-mode graphviz-dot-mode
          rust-mode csharp-mode nim-mode jinja2-mode
          markdown-mode purescript-mode nix-mode
@@ -65,19 +84,30 @@
          kotlin-mode go-mode php-mode racket-mode
          qml-mode rfc-mode sml-mode
          powershell glsl-mode editorconfig js2-mode cmake-mode
-         projectile helm-projectile)))
+         projectile helm-projectile
+         vterm
+         web-mode
+         eglot)))
   (dolist (p packages-to-install)
     (unless (package-installed-p p)
       (ignore-errors (package-install p)))))
 
-;; Lokální cesty s tvými módy
+;; Lokalni cesty s tvymi mody
 (add-to-list 'load-path "~/.emacs.local/")
 
-;; Načti vlastní rc soubory (pokud existují)
+;; Nacti vlastni rc soubory (pokud existuji)
 (ignore-errors (load "~/.emacs.rc/rc.el"))
 (ignore-errors (load "~/.emacs.rc/misc-rc.el"))
 (ignore-errors (load "~/.emacs.rc/org-mode-rc.el"))
 (ignore-errors (load "~/.emacs.rc/autocommit-rc.el"))
+
+;;; -------------------------------
+;;; Cislovani radku globalne
+;;; -------------------------------
+(setq display-line-numbers-type t)   ;; t = absolutni, 'relative = relativni
+(when (version<= "26.0.50" emacs-version)
+  (global-display-line-numbers-mode 1))
+
 
 ;;; -------------------------------
 ;;; Vzhled
@@ -89,7 +119,7 @@
    (t                            "DejaVu Sans Mono-12")))
 
 (defun rc/set-first-available-font (fonts)
-  "Vyber první dostupný font z FONTS (se jménem včetně velikosti)."
+  "Vyber prvni dostupny font z FONTS (se jmenem vcetne velikosti)."
   (when-let* ((name (seq-find (lambda (f) (find-font (font-spec :name f))) fonts)))
     (add-to-list 'default-frame-alist `(font . ,name))))
 
@@ -100,7 +130,6 @@
    "FiraCode-12"
    "DejaVu Sans Mono-12"))
 
-
 (tool-bar-mode 0)
 (menu-bar-mode 0)
 (scroll-bar-mode 0)
@@ -108,12 +137,25 @@
 (show-paren-mode 1)
 (setq inhibit-startup-screen t)
 
-(rc/require-theme 'gruber-darker)
-;; (rc/require-theme 'zenburn)
+(setq select-enable-clipboard t
+      select-enable-primary   nil)
 
-;; Příklad úpravy faces pro zenburn (až když je načten):
-(eval-after-load 'zenburn-theme
-  '(set-face-attribute 'line-number nil :inherit 'default))
+;;(rc/require-theme 'gruber-darker)
+;;(set-background-color "#1E1E1E")
+;; (rc/require-theme 'zenburn)
+;;(setq catppuccin-flavor 'macchiato) ;; nebo 'latte, 'frappe, 'macchiato
+;;(load-theme 'catppuccin :no-confirm)
+;;(catppuccin-set-color 'base "#1F1F1F")
+;;(catppuccin-reload)
+
+
+(load-theme 'kanagawa-wave t)
+;; barva normalni fontu na bilou
+(set-face-attribute 'default nil :foreground "#D8D8D8")
+
+;; Priklad upravy faces pro zenburn (az kdyz je nacten):
+;;(eval-after-load 'zenburn-theme
+;;  '(set-face-attribute 'line-number nil :inherit 'default))
 
 ;;; -------------------------------
 ;;; IDO + SMEX
@@ -135,15 +177,9 @@
 (add-hook 'c-mode-hook (lambda () (c-toggle-comment-style -1)))
 
 ;;; -------------------------------
-;;; Paredit (Lisp jazyky)
+;;; Pairing zavorek
 ;;; -------------------------------
-;;;(rc/require 'paredit)
-;;;(defun rc/turn-on-paredit () (paredit-mode 1))
-;;;(dolist (hook '(emacs-lisp-mode-hook clojure-mode-hook lisp-mode-hook
-;;;                  common-lisp-mode-hook scheme-mode-hook racket-mode-hook))
-;;;  (add-hook hook 'rc/turn-on-paredit))
 (electric-pair-mode 1)
-
 
 ;;; -------------------------------
 ;;; Emacs Lisp drobnosti
@@ -153,7 +189,7 @@
 (add-to-list 'auto-mode-alist '("Cask" . emacs-lisp-mode))
 
 ;;; -------------------------------
-;;; Lokální módy (z ~/.emacs.local) – nahrávej, jen pokud existují
+;;; Lokalni mody (z ~/.emacs.local)
 ;;; -------------------------------
 (dolist (m '(uxntal-mode basm-mode fasm-mode porth-mode noq-mode jai-mode simpc-mode c3-mode))
   (ignore-errors (require m)))
@@ -164,81 +200,239 @@
 ;;; -------------------------------
 ;;; Whitespace + trim
 ;;; -------------------------------
+(require 'whitespace)
+
+;;(defun rc/set-up-whitespace-handling ()
+;;  "Zapni whitespace-mode a trim trailing mezer pri ulozeni v aktualnim bufferu."
+;;  (whitespace-mode 0)
+;;  (setq show-trailing-whitespace t)
+;;  (add-hook 'before-save-hook #'delete-trailing-whitespace nil t))
+
 (defun rc/set-up-whitespace-handling ()
-  (whitespace-mode 1)
-  (add-to-list 'write-file-functions 'delete-trailing-whitespace))
+  (setq show-trailing-whitespace t)
+  (add-hook 'before-save-hook #'delete-trailing-whitespace nil t))
+
+(global-whitespace-mode 0)
+
+;; Vetsina kodovacich modu - trim pri ulozeni
 (dolist (hook '(tuareg-mode-hook c++-mode-hook c-mode-hook simpc-mode-hook
                  emacs-lisp-mode-hook java-mode-hook lua-mode-hook rust-mode-hook
-                 scala-mode-hook markdown-mode-hook haskell-mode-hook
+                 scala-mode-hook haskell-mode-hook
                  python-mode-hook erlang-mode-hook asm-mode-hook fasm-mode-hook
                  go-mode-hook nim-mode-hook yaml-mode-hook porth-mode-hook))
-  (add-hook hook 'rc/set-up-whitespace-handling))
+  (add-hook hook #'rc/set-up-whitespace-handling))
+
+(defun rc/md-trim-except-hard-breaks ()
+  "V Markdownu smaze trailing whitespace, ale zachova presne dve mezery na konci radku (hard break)."
+  (save-excursion
+    (goto-char (point-min))
+    (while (re-search-forward "[ \t]+$" nil t)
+      (let ((len (- (match-end 0) (match-beginning 0))))
+        (unless (= len 2)
+          (replace-match "" t t))))))
+
+(add-hook 'markdown-mode-hook
+          (lambda ()
+            ;; jen vizualni zvyrazneni
+            (whitespace-mode 1)
+            (setq-local show-trailing-whitespace nil)
+
+            ;; odstrel vseho, co by mohlo trimovat pri save
+            (remove-hook 'before-save-hook #'delete-trailing-whitespace t)
+            (remove-hook 'before-save-hook #'whitespace-cleanup t)
+            (remove-hook 'write-file-functions #'delete-trailing-whitespace t)
+
+            ;; pokud pouzivas ws-butler (kdyby nahodou)
+            (when (bound-and-true-p ws-butler-mode)
+              (ws-butler-mode -1))
+
+            ;; pokud je aktivni editorconfig v tomhle bufferu, tak pryc
+            (when (bound-and-true-p editorconfig-mode)
+              (editorconfig-mode -1))
+
+            ;; na konec hooku, aby to prebilo vsechno ostatni
+            (add-hook 'before-save-hook #'rc/md-trim-except-hard-breaks t t)))
 
 ;;; -------------------------------
-;;; New window + cmd
+;;; New window + vterm
 ;;; -------------------------------
-(defun my/split-and-ansi-term-here ()
+(use-package vterm :ensure t)
+
+(defun my/vterm-new-here ()
+  "Otevri novy, jednoznacne pojmenovany vterm dole v aktualnim adresari."
   (interactive)
-  (let ((dir (or (and buffer-file-name (file-name-directory buffer-file-name))
-                 default-directory)))
+  (let* ((dir (or (and buffer-file-name (file-name-directory buffer-file-name))
+                  default-directory))
+         (vterm-buffer-name (generate-new-buffer-name "vterm")))
     (split-window-below)
     (other-window 1)
     (let ((default-directory dir))
-      (ansi-term "/bin/bash"))))
-(global-set-key (kbd "C-c t") 'my/split-and-ansi-term-here)
+      (vterm))))
+
+(defun my/vterm-reuse-or-create ()
+  "Otevri dole vterm; pokud existuje, reuse *vterm*, jinak vytvor novy."
+  (interactive)
+  (let* ((dir (or (and buffer-file-name (file-name-directory buffer-file-name))
+                  default-directory))
+         (vterm-buffer-name "vterm"))
+    (split-window-below)
+    (other-window 1)
+    (let ((default-directory dir))
+      (vterm))))
+
+(global-set-key (kbd "C-x t")  #'my/vterm-reuse-or-create)
+(global-set-key (kbd "C-x T")  #'my/vterm-new-here)
 
 
+;;; -------------------------------
+;;; GDB
+;;; -------------------------------
+(setq gdb-many-windows t
+      gdb-show-main t)
 
-;;; Dopici nechci soubor z podslozky...
+;;; -------------------------------
+;;; Isearch z regionu
+;;; -------------------------------
+(defun my/isearch-forward-from-region ()
+  "Kdyz je aktivni region, pouzij ho jako dotaz pro isearch-forward."
+  (interactive)
+  (let ((sel (when (use-region-p)
+               (buffer-substring-no-properties (region-beginning) (region-end)))))
+    (deactivate-mark)
+    (isearch-forward)
+    (when sel (isearch-yank-string sel))))
+
+(defun my/isearch-backward-from-region ()
+  "Kdyz je aktivni region, pouzij ho jako dotaz pro isearch-backward."
+  (interactive)
+  (let ((sel (when (use-region-p)
+               (buffer-substring-no-properties (region-beginning) (region-end)))))
+    (deactivate-mark)
+    (isearch-backward)
+    (when sel (isearch-yank-string sel))))
+
+(global-set-key (kbd "C-s") #'my/isearch-forward-from-region)
+(global-set-key (kbd "C-r") #'my/isearch-backward-from-region)
+
+;;; -------------------------------
+;;; Kopirovani ve vtermu
+;;; -------------------------------
+(with-eval-after-load 'vterm
+  (defun my/vterm-copy-region-or-enter-copy-mode ()
+    "Ve vtermu zkopiruj aktualni vyber.
+Kdyz neni nic oznaceno, zapni vterm-copy-mode a nech uzivatele oznacit."
+    (interactive)
+    (if (use-region-p)
+        (progn
+          (kill-ring-save (region-beginning) (region-end))
+          (deactivate-mark)
+          (message "✓ zkopirovano do kill-ringu/clipboardu"))
+      (vterm-copy-mode 1)
+      (message "vterm-copy-mode ON → oznac text a stiskni M-w znovu pro kopii")))
+  (define-key vterm-mode-map      (kbd "M-w") #'my/vterm-copy-region-or-enter-copy-mode)
+  (define-key vterm-copy-mode-map (kbd "M-w") #'my/vterm-copy-region-or-enter-copy-mode))
+
+;;; -------------------------------
+;;; IDO: nechci auto-merge podslozek
+;;; -------------------------------
 (setq ido-auto-merge-work-directories-length -1)
 
-;;; EDIFF
+;;; -------------------------------
+;;; Magit + Ediff helper
+;;; -------------------------------
 (with-eval-after-load 'magit
   (defun my/magit-smerge-ediff-at-point ()
-    "Otevři soubor na řádku v Magit Status a spusť smerge-ediff."
+    "Otevri soubor na radku v Magit Status a spust smerge-ediff."
     (interactive)
     (let ((file (magit-file-at-point)))
       (unless file
-        (user-error "Na tomto řádku není soubor"))
-      ;; otevřít soubor v aktuálním okně a spustit smerge-ediff
+        (user-error "Na tomto radku neni soubor"))
       (find-file file)
       (smerge-ediff)))
 
-  ;; odmapovat původní a namapovat náš
   (define-key magit-status-mode-map (kbd "e") nil)
   (define-key magit-status-mode-map (kbd "e") #'my/magit-smerge-ediff-at-point))
 
-
-
 (with-eval-after-load 'magit
-  ;; Všechny magit “section” buffery
-  (define-key magit-section-mode-map (kbd "<C-tab>") nil)              ;; uvolni C-Tab
-  ;; Přesuň cyklování sekcí na Ctrl+Shift+Tab (obě notace kvůli různým WM)
+  ;; Vsechny magit “section” buffery
+  (define-key magit-section-mode-map (kbd "<C-tab>") nil)
   (define-key magit-section-mode-map (kbd "<C-S-tab>") #'magit-section-cycle)
   (define-key magit-section-mode-map (kbd "<C-S-iso-lefttab>") #'magit-section-cycle))
 
-;;; GIT
-;; stejné okno (neotvírej nové frame)
+;;; GIT Ediff nastaveni
 (setq ediff-window-setup-function 'ediff-setup-windows-plain)
-
-;; horizontální split = 2 panely vedle sebe
 (setq ediff-split-window-function 'split-window-horizontally)
 (setq ediff-merge-split-window-function 'split-window-horizontally)
-
-;; jemné zvýraznění rozdílů
 (setq ediff-forward-word-function 'forward-char)
 
-
-;;; --- Select all (označit celý buffer) ---
-;; Varianta A: přemapuj Ctrl + A na "Select All"
+;;; -------------------------------
+;;; Select all na C-a
+;;; -------------------------------
 (global-set-key (kbd "C-a") 'mark-whole-buffer)
 
+;;; -------------------------------
+;;; Delete nesmi kopirovat region
+;;; -------------------------------
+;;(defun my/delete-char-or-region ()
+;;  "Kdyz je aktivni region, smaze ho bez ukladani do kill-ring.
+;;Jinak smaze nasledujici znak."
+;;  (interactive)
+;;  (if (use-region-p)
+;;      (delete-region (region-beginning) (region-end))
+;;    (delete-char 1)))
+;;
+;;;;(global-set-key [delete] #'my/delete-char-or-region)
+;;;;(global-set-key (kbd "<deletechar>") #'my/delete-char-or-region)
+;;;; pokud chces stejne chovani i pro Backspace, odkomentuj:
+;; (global-set-key [backspace] #'my/delete-char-or-region)
+;; (global-set-key (kbd "<backspace>") #'my/delete-char-or-region)
+;;
+
+(defun my/delete-char-or-region ()
+  "Kdyz je aktivni region, smaze ho bez ukladani do kill-ring.
+Jinak smaze nasledujici znak."
+  (interactive)
+  (if (use-region-p)
+      (delete-region (region-beginning) (region-end))
+    (delete-char 1)))
+
+(defun my/backspace-or-region ()
+  "Kdyz je aktivni region, smaze ho bez ukladani do kill-ring.
+Jinak smaze predchozi znak."
+  (interactive)
+  (if (use-region-p)
+      (delete-region (region-beginning) (region-end))
+    (delete-char -1)))
+
+(defun my/delete-line ()
+  "Smaze od kurzoru do konce radku bez ukladani do kill-ring.
+Kdyz je kurzor na konci radku, smaze newline."
+  (interactive)
+  (if (use-region-p)
+      (delete-region (region-beginning) (region-end))
+    (delete-region (point) (if (eolp)
+                               (1+ (point))
+                             (line-end-position)))))
+
+(defun my/delete-whole-line ()
+  "Smaze cely radek vcetne newline bez ukladani do kill-ring."
+  (interactive)
+  (delete-region (line-beginning-position)
+                 (min (point-max) (1+ (line-end-position)))))
+
+(global-set-key [delete]              #'my/delete-char-or-region)
+(global-set-key (kbd "<deletechar>")  #'my/delete-char-or-region)
+(global-set-key [backspace]           #'my/backspace-or-region)
+(global-set-key (kbd "<backspace>")   #'my/backspace-or-region)
+(global-set-key (kbd "C-k")           #'my/delete-line)
+(global-set-key (kbd "C-S-<backspace>") #'my/delete-whole-line)
+
 
 ;;; -------------------------------
-;;; Duplikace řádku NEBO označené oblasti
+;;; Duplikace radku nebo regionu
 ;;; -------------------------------
 (defun my/duplicate-line-or-region ()
-  "Když je aktivní výběr, duplikuje ho za něj. Jinak duplikuje aktuální řádek."
+  "Kdyz je aktivni vyber, duplikuje ho za nej. Jinak duplikuje aktualni radek."
   (interactive)
   (if (use-region-p)
       (let* ((beg (region-beginning))
@@ -255,41 +449,32 @@
             (end-of-line)
             (insert "\n" text))))
       (move-to-column col))))
-;; Zkratka: Ctrl + C, D
 (global-set-key (kbd "C-c d") 'my/duplicate-line-or-region)
-
-
 
 ;;; -------------------------------
 ;;; Multiple cursors
 ;;; -------------------------------
 (rc/require 'multiple-cursors)
 
-;; 1) nejdřív vše „odsvážeme“, kdyby to kolidovalo
 (global-unset-key (kbd "C-,"))
 (global-unset-key (kbd "C-."))
 (global-unset-key (kbd "C-M-,"))
 (global-unset-key (kbd "C-M-."))
 
-;; 2) zajistíme, že je multiple-cursors k dispozici
 (require 'multiple-cursors nil t)
 
-;; 3) nastavíme CZ-friendly bindy pro multiple-cursors
-(global-set-key (kbd "C-.")   #'mc/mark-next-like-this)        ;; další shoda
-(global-set-key (kbd "C-,")   #'mc/mark-previous-like-this)    ;; předchozí shoda
-(global-set-key (kbd "C-M-.") #'mc/skip-to-next-like-this)     ;; přeskočit aktuální a dál
-(global-set-key (kbd "C-M-,") #'mc/skip-to-previous-like-this) ;; přeskočit aktuální a zpět
-(global-set-key (kbd "C-c C-,") #'mc/mark-all-like-this)       ;; označit všechny shody
+(global-set-key (kbd "C-.")   #'mc/mark-next-like-this)
+(global-set-key (kbd "C-,")   #'mc/mark-previous-like-this)
+(global-set-key (kbd "C-M-.") #'mc/skip-to-next-like-this)
+(global-set-key (kbd "C-M-,") #'mc/skip-to-previous-like-this)
+(global-set-key (kbd "C-c C-,") #'mc/mark-all-like-this)
 (global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines)
 
-;; Přidat kurzor na řádek níže/výše (jako ve VS Code)
-(global-set-key (kbd "C-S-<down>")   #'mc/mark-next-like-this)
+(global-set-key (kbd "C-S-<down>") #'mc/mark-next-like-this)
 (global-set-key (kbd "C-S-<up>")   #'mc/mark-previous-like-this)
 
-
 ;;; -------------------------------
-;;; === CZ-friendly Undo/Redo ===
-;; 1) Pokus o přímé bindy (v GUI Emacsu většinou projde)
+;;; CZ-friendly Undo/Redo
 ;;; -------------------------------
 (ignore-errors (global-set-key (kbd "C-ů") #'undo))
 (cond
@@ -300,29 +485,25 @@
   ((fboundp 'undo-fu-only-redo)
    (ignore-errors (global-set-key (kbd "C-§") #'undo-fu-only-redo))))
 
-
 ;;; -------------------------------
-;;; klávesová zkratka: Ctrl + X, K
+;;; Zabij vsechny ostatni buffery
 ;;; -------------------------------
 (defun my/kill-other-buffers ()
-  "Zabij všechny buffery kromě aktuálního."
+  "Zabij vsechny buffery krome aktualniho."
   (interactive)
   (mapc #'kill-buffer (delq (current-buffer) (buffer-list))))
 (global-set-key (kbd "C-x K") #'my/kill-other-buffers)
 
-
 ;;; -------------------------------
-;;; Další okno
+;;; Prepinani oken
 ;;; -------------------------------
 (when (display-graphic-p)
-  ;; dopředu: Ctrl+Tab
   (global-set-key (kbd "<C-tab>") #'other-window)
-  ;; zpět: Ctrl+Shift+Tab (dvě notace kvůli kompatibilitě)
   (global-set-key (kbd "<C-S-iso-lefttab>")
                   (lambda () (interactive) (other-window -1)))
   (global-set-key (kbd "<C-S-tab>")
                   (lambda () (interactive) (other-window -1))))
-;; stejné chování i v minibufferu
+
 (dolist (map (list minibuffer-local-map
                    minibuffer-local-ns-map
                    minibuffer-local-completion-map
@@ -335,12 +516,11 @@
     (define-key map (kbd "<C-S-tab>")
       (lambda () (interactive) (other-window -1)))))
 
-
 ;;; -------------------------------
-;;; TAB/Shift-TAB na označený text
+;;; TAB/Shift-TAB na oznaceny text
 ;;; -------------------------------
 (defun my/indent-region-or-tab ()
-  "Když je aktivní výběr, odsaď vybrané řádky o `tab-width`. Jinak standardní Tab."
+  "Kdyz je aktivni vyber, odsadi vybrane radky o `tab-width`. Jinak standardni Tab."
   (interactive)
   (if (use-region-p)
       (let* ((deactivate-mark nil)
@@ -350,8 +530,9 @@
                                  (line-end-position))))
         (indent-rigidly rb re tab-width))
     (indent-for-tab-command)))
+
 (defun my/outdent-region ()
-  "Když je aktivní výběr, uber odsazení vybraných řádků o `tab-width`."
+  "Kdyz je aktivni vyber, uber odsazeni vybranych radku o `tab-width`."
   (interactive)
   (when (use-region-p)
     (let* ((deactivate-mark nil)
@@ -360,20 +541,11 @@
            (re (save-excursion (goto-char (region-end))
                                (line-end-position))))
       (indent-rigidly rb re (- tab-width)))))
-;; Bind: Tab = posunout výběr doprava / běžný Tab; Shift+Tab = posunout doleva
+
 (global-set-key (kbd "<tab>") #'my/indent-region-or-tab)
-(global-set-key (kbd "<backtab>") #'my/outdent-region)         ;; Shift+Tab
-(global-set-key (kbd "<S-tab>") #'my/outdent-region)           ;; některá prostředí
-(global-set-key (kbd "<S-iso-lefttab>") #'my/outdent-region)   ;; jiná prostředí
-
-
-
-
-;;; -------------------------------
-;;; Číslování řádků (Emacs 26+)
-;;; -------------------------------
-(when (version<= "26.0.50" emacs-version)
-  (global-display-line-numbers-mode))
+(global-set-key (kbd "<backtab>") #'my/outdent-region)
+(global-set-key (kbd "<S-tab>") #'my/outdent-region)
+(global-set-key (kbd "<S-iso-lefttab>") #'my/outdent-region)
 
 ;;; -------------------------------
 ;;; Magit
@@ -383,7 +555,6 @@
 (global-set-key (kbd "C-c m s") 'magit-status)
 (global-set-key (kbd "C-c m l") 'magit-log)
 
-
 ;;; -------------------------------
 ;;; Dired
 ;;; -------------------------------
@@ -392,9 +563,7 @@
 (setq-default dired-dwim-target t)
 (setq dired-listing-switches "-alh")
 (setq dired-mouse-drag-files t)
-;; Posílat mazání do Koše místo trvalého smazání
 (setq delete-by-moving-to-trash t)
-
 
 ;;; -------------------------------
 ;;; Helm (+ git grep)
@@ -450,14 +619,14 @@
 (add-hook 'emacs-lisp-mode-hook (lambda () (eldoc-mode 1)))
 
 ;;; -------------------------------
-;;; Company (globálně), vypnout v tuareg
+;;; Company (globalne), vypnout v tuareg
 ;;; -------------------------------
 (rc/require 'company)
 (global-company-mode)
 (add-hook 'tuareg-mode-hook (lambda () (company-mode 0)))
 
 ;;; -------------------------------
-;;; TypeScript + Tide (+ Flycheck)
+;;; TypeScript + Tide + Flycheck
 ;;; -------------------------------
 (rc/require 'typescript-mode 'tide 'flycheck)
 (defun rc/turn-on-tide-and-flycheck ()
@@ -509,20 +678,21 @@
                1 2 (4) (5)))
 
 ;;; -------------------------------
-;;; Načti custom-file, pokud existuje
+;;; Nacti custom-file, pokud existuje
 ;;; -------------------------------
 (when (file-exists-p custom-file)
   (load-file custom-file))
 
+;;; -------------------------------
+;;; Sipky pro prochazeni souboru
+;;; -------------------------------
 
-;;; --- Šipky pro procházení souborů ---
-
-;; HELM (helm-find-files): vlevo = o adresář výš, vpravo = vstoupit/otevřít (persist. action)
+;; HELM (helm-find-files): vlevo = o adresar vys, vpravo = otevrit/persist-action
 (with-eval-after-load 'helm-files
   (define-key helm-find-files-map (kbd "<left>")
     (if (fboundp 'helm-find-files-up-one-level)
         'helm-find-files-up-one-level
-   'helm-ff-run-up-one-level))           ;; fallback, když by se jmenovalo jinak
+      'helm-ff-run-up-one-level))
   (define-key helm-find-files-map (kbd "<right>") 'helm-execute-persistent-action)
   (define-key helm-read-file-map (kbd "<left>")
     (if (fboundp 'helm-find-files-up-one-level)
@@ -530,18 +700,104 @@
       'helm-ff-run-up-one-level))
   (define-key helm-read-file-map (kbd "<right>") 'helm-execute-persistent-action))
 
-;; DIRED: vlevo = o adresář výš, vpravo = otevřít/vstoupit
+;; DIRED: vlevo = o adresar vys, vpravo = otevrit/vstoupit
 (with-eval-after-load 'dired
   (define-key dired-mode-map (kbd "<left>")  'dired-up-directory)
   (define-key dired-mode-map (kbd "<right>") 'dired-find-file))
 
-;; IDO (Open File dialog): vlevo = o adresář výš, vpravo = potvrdit výběr
+;; IDO: vlevo = o adresar vys, vpravo = potvrdit vyber
 (with-eval-after-load 'ido
-  ;; „o adresář výš“ (normálně dělá Backspace)
   (define-key ido-file-completion-map (kbd "<left>") 'ido-delete-backward-updir)
-  ;; potvrdit aktuální kandidát (u složky to vejde dovnitř, u souboru otevře)
   (define-key ido-file-completion-map (kbd "<right>") 'ido-exit-minibuffer))
 
-
-
+;;; -------------------------------
+;;; Fix nil faces po startu
+;;; -------------------------------
 (add-hook 'emacs-startup-hook #'rc/fix-nil-faces)
+
+;;; -------------------------------
+;;; Latte a Vue pres web-mode + Eglot
+;;; -------------------------------
+;; web-mode uz je v balickach (viz packages-to-install)
+
+;; Latte (.latte)
+(add-to-list 'auto-mode-alist '("\\.latte\\'" . web-mode))
+
+(with-eval-after-load 'web-mode
+  ;; Latte engine "smarty"
+  (setq web-mode-engines-alist
+        (append web-mode-engines-alist
+                '(("smarty" . "\\.latte\\'"))))
+
+  ;; obecne odsazeni
+  (setq web-mode-markup-indent-offset 2
+        web-mode-code-indent-offset   2
+        web-mode-css-indent-offset    2
+        web-mode-enable-auto-pairing t
+        web-mode-enable-css-colorization t))
+
+(defun my/latte-extra-font-lock ()
+  "Pridat par Latte klicovych slov navic."
+  (when (and buffer-file-name (string-match-p "\\.latte\\'" buffer-file-name))
+    (font-lock-add-keywords
+     nil
+     '(("{/?\\(block\\|if\\|else\\|elseif\\|foreach\\|include\\|layout\\|var\\|define\\)\\b"
+        0 font-lock-keyword-face t)))))
+
+(add-hook 'web-mode-hook #'my/latte-extra-font-lock)
+
+;; Vue (.vue) pres web-mode
+(add-to-list 'auto-mode-alist '("\\.vue\\'" . web-mode))
+
+(with-eval-after-load 'web-mode
+  (add-to-list 'web-mode-engines-alist '("vue" . "\\.vue\\'"))
+  (setq web-mode-script-padding 0
+        web-mode-style-padding  0))
+
+;; Eglot pro Vue
+(with-eval-after-load 'eglot
+  (add-to-list 'eglot-server-programs
+               '((web-mode :language-id "vue")
+                 . ("vue-language-server" "--stdio"))))
+
+(add-hook 'web-mode-hook
+          (lambda ()
+            (when (and buffer-file-name (string-match-p "\\.vue\\'" buffer-file-name))
+              (eglot-ensure))))
+
+;;; -------------------------------
+;;; Markdown extra
+;;; -------------------------------
+(add-to-list 'auto-mode-alist '("README\\.md\\'" . gfm-mode))
+
+(setq markdown-command "pandoc -f gfm -t html5")
+
+(with-eval-after-load 'markdown-mode
+  (define-key markdown-mode-map (kbd "C-c p") #'markdown-live-preview-mode))
+
+;;; -------------------------------
+;;; Autosave pri prepnuti bufferu
+;;; -------------------------------
+(defvar my/prev-buffer nil)
+
+(defun my/can-auto-save-p ()
+  (and (buffer-modified-p)
+       (buffer-file-name)
+       (not buffer-read-only)
+       (file-writable-p (buffer-file-name))
+       (not (minibufferp))
+       ;; pripadne povol TRAMP:
+       (not (file-remote-p (buffer-file-name)))))
+
+(add-hook 'pre-command-hook
+          (lambda ()
+            (setq my/prev-buffer (current-buffer))))
+
+(add-hook 'post-command-hook
+          (lambda ()
+            (when (and my/prev-buffer
+                       (not (eq my/prev-buffer (current-buffer))))
+              (with-current-buffer my/prev-buffer
+                (when (my/can-auto-save-p)
+                  (save-buffer))))
+            (setq my/prev-buffer (current-buffer))))
