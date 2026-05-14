@@ -309,16 +309,61 @@
 - M-x + smerge-ediff -> starts proper ediff on opened diff file
 
 --------------------------------------------------
-
 ### Rebase:
 ```text
-r u -> 1.) take commits from some branch and put them into current branch
-       2.) ediff conflicts
+r u -> 1.) take commits from some branch and insert them into the current branch
+       2.) ediff the conflicts
        3.) r r
-       4.) do this until conflicts disappear
-       5.) then window "Unmerged into main (1)" remains until I merge it (not needed immediately)
-
-// if I do not merge, I can continue working however I want
-// then switch to main, do (m m)
-// optionally then in (l l) go to the first commit of all our possible commits,
-// and then switch all below to "squash" using (s)
+       4.) keep doing it until the conflicts disappear
+       5.) then the "Unmerged into main (1)" window will remain until you merge it (no need to do it right away)
+// if you don't merge, you can keep working however you want
+// then switch to main, press (m m)
+// optionally then in (l l) navigate to the first commit of all your potential commits,
+// and then switch all the ones below to "squash" using (s)
+```
+- ***c w*** -> changes the message of the last commit  
+- ***r a*** -> abort the entire rebase  
+--------------------------------------------------
+### Squashing commits in interactive rebase:
+```text
+r i -> rebase commits, merges commits together, most commonly a fix/rebase commit.
+       in (l l) navigate to the commit you want to rebase, so that the TODO looks like this:
+pick  1b886da "main message"
+fixup a218acd "fix commit after (c f)"
+// so that fixup is at the bottom
+```
+--------------------------------------------------
+### The difference between merge and rebase is that merge creates a "bubble" and rebase does not:
+**MERGE:**
+```text
+before:  main:    A---B----C
+                       \
+         feature:       D--E
+               ...
+after:   main:    A---B----C--M
+                       \     /
+         feature:       D--E
+```
+___________________________________________
+**REBASE:**
+```text
+before:  main:    A---B----C
+                       \
+         feature:       D--E
+               ...
+after:   main:    A---B----C
+                            \
+         feature:            D'--E'
+```
+___________________________________________
+**FF MERGE:**  
+- can only be used if main is an ancestor of feature (feature is not behind)  
+- git always tries to do this; if you want to force it, enable ***--ff-only*** during merge  
+```text
+before:  main:    A---B---C
+                            \
+         feature:            D'--E'
+               ...
+after:   main:    A---B---C--D'--E'
+         feature:               E'
+```

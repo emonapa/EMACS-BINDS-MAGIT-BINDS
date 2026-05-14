@@ -322,3 +322,62 @@ r u -> 1.) vezmi commity z nějaké větve a vlož je do aktuální větve
 // potom přejít na main, dát (m m)
 // přípádně potom v (l l) přejít na první commit našich všech případných commitů,
 // a potom všechny spodní přepnout na "squash" pomocí (s)
+```
+
+- ***c w*** -> změní zprávu posledního commitu  
+- ***r a*** -> abort celého rebase  
+
+--------------------------------------------------
+
+### Squash commitů v interactive rebase:
+```text
+r i -> rebase commitů, spojí dohromady commity, nejčastěji fix/rebase commit.
+       najet v (l l) na commit který chci rebasnout, tak aby TODO vypadal takto:
+pick  1b886da "main message"
+fixup a218acd "fix commit po (c f)"
+// tedy aby byl fixup dole
+```
+
+--------------------------------------------------
+
+### Rozdíl mezi merge a rebase je, že merge vytváří "bublinu" a rebase ne:
+
+**MERGE:**
+```text
+před:  main:    A---B----C
+                     \
+       feature:       D--E
+             ...
+po:    main:    A---B----C--M
+                     \     /
+       feature:       D--E
+```
+
+___________________________________________
+
+**REBASE:**
+```text
+před:  main:    A---B----C
+                     \
+       feature:       D--E
+             ...
+po:    main:    A---B----C
+                          \
+       feature:            D'--E'
+```
+
+___________________________________________
+
+**FF MERGE:**  
+- lze použít jen pokud je main předek feature (feature není pozadu)  
+- git se o to snaží vždy, pokud to chceš vynutit, tak při mergi zapnout ***--ff-only***  
+
+```text
+před:  main:    A---B---C
+                          \
+       feature:            D'--E'
+             ...
+po:    main:    A---B---C--D'--E'
+
+       feature:                E'
+```
