@@ -170,7 +170,7 @@
 (set-face-attribute 'font-lock-string-face nil :foreground "#86EFAC")
 (set-face-attribute 'font-lock-type-face nil :foreground "#2DD4BF")
 
-
+(set-face-attribute 'ansi-color-green nil :foreground "#4ADE80")
 
 ;; Priklad upravy faces pro zenburn (az kdyz je nacten):
 ;;(eval-after-load 'zenburn-theme
@@ -389,23 +389,6 @@ Kdyz neni nic oznaceno, zapni vterm-copy-mode a nech uzivatele oznacit."
 ;;; -------------------------------
 (global-set-key (kbd "C-a") 'mark-whole-buffer)
 
-;;; -------------------------------
-;;; Delete nesmi kopirovat region
-;;; -------------------------------
-;;(defun my/delete-char-or-region ()
-;;  "Kdyz je aktivni region, smaze ho bez ukladani do kill-ring.
-;;Jinak smaze nasledujici znak."
-;;  (interactive)
-;;  (if (use-region-p)
-;;      (delete-region (region-beginning) (region-end))
-;;    (delete-char 1)))
-;;
-;;;;(global-set-key [delete] #'my/delete-char-or-region)
-;;;;(global-set-key (kbd "<deletechar>") #'my/delete-char-or-region)
-;;;; pokud chces stejne chovani i pro Backspace, odkomentuj:
-;; (global-set-key [backspace] #'my/delete-char-or-region)
-;; (global-set-key (kbd "<backspace>") #'my/delete-char-or-region)
-;;
 
 (defun my/delete-char-or-region ()
   "Kdyz je aktivni region, smaze ho bez ukladani do kill-ring.
@@ -815,8 +798,27 @@ Kdyz je kurzor na konci radku, smaze newline."
 (add-hook 'post-command-hook
           (lambda ()
             (when (and my/prev-buffer
+                       (buffer-live-p my/prev-buffer)
                        (not (eq my/prev-buffer (current-buffer))))
               (with-current-buffer my/prev-buffer
                 (when (my/can-auto-save-p)
                   (save-buffer))))
             (setq my/prev-buffer (current-buffer))))
+
+
+(defun my/create-or-refresh-etags ()
+  "Vytvori nebo refreshne TAGS soubor pro aktualni projekt."
+  (interactive)
+  (let* ((root (or (and (fboundp 'projectile-project-root)
+                        (ignore-errors (projectile-project-root)))
+                   default-directory))
+         (default-directory root))
+    (message "Generuji TAGS v %s ..." root)
+    (shell-command
+     "find . -type f \\( -name '*.c' -o -name '*.h' -o -name '*.cpp' -o -name '*.py' -o -name '*.el' \\) | etags -")
+    (visit-tags-table (concat root "TAGS"))
+    (message "TAGS hotovo.")))
+
+(global-set-key (kbd "C-x e") #'my/create-or-refresh-etags)
+;; Vypnout org-capture na C-c c
+(global-unset-key (kbd "C-c c"))
