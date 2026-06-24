@@ -385,6 +385,12 @@ Kdyz neni nic oznaceno, zapni vterm-copy-mode a nech uzivatele oznacit."
 (setq ediff-forward-word-function 'forward-char)
 
 ;;; -------------------------------
+;;; Auto reread souboru z disku
+;;; -------------------------------
+(global-auto-revert-mode 1)
+(setq auto-revert-verbose nil)
+
+;;; -------------------------------
 ;;; Select all na C-a
 ;;; -------------------------------
 (global-set-key (kbd "C-a") 'mark-whole-buffer)
@@ -494,7 +500,9 @@ Kdyz je kurzor na konci radku, smaze newline."
   "Zabij vsechny buffery krome aktualniho."
   (interactive)
   (mapc #'kill-buffer (delq (current-buffer) (buffer-list))))
-(global-set-key (kbd "C-x K") #'my/kill-other-buffers)
+
+(global-set-key (kbd "C-x K") #'kill-buffer-and-window)
+(global-set-key (kbd "C-x k") #'delete-window)
 
 ;;; -------------------------------
 ;;; Prepinani oken
@@ -580,7 +588,6 @@ Kdyz je kurzor na konci radku, smaze newline."
 (global-set-key (kbd "C-c h f") 'helm-find)
 (global-set-key (kbd "C-c h a") 'helm-org-agenda-files-headings)
 (global-set-key (kbd "C-c h r") 'helm-recentf)
-(global-set-key (kbd "C-x k") 'kill-buffer-and-window)
 
 ;;; -------------------------------
 ;;; Yasnippet

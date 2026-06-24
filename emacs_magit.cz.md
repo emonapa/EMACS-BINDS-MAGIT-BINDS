@@ -16,8 +16,8 @@
 - Ctrl + X, 0 -> zavřít aktuální okno
 - Ctrl + X, O / Ctrl + Tab -> přejít do jiného okna
 - Ctrl + Shift + Tab -> přejít do předchozího okna
-- Ctrl + X, k -> zavřít aktuální okno i jeho buffer
-- Ctrl + X, K -> zavřít všechny ostatní buffery (ponechat aktuální)
+- Ctrl + X, k -> zavřít aktuální okno bez jeho bufferu
+- Ctrl + X, K -> zavřít aktuální okno s jeho bufferem
 
 -------------------------------------------------------------------------
 

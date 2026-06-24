@@ -16,8 +16,8 @@
 - Ctrl + X, 0 -> close current window
 - Ctrl + X, O / Ctrl + Tab -> switch to another window
 - Ctrl + Shift + Tab -> switch to previous window
-- Ctrl + X, k -> close current window and its buffer
-- Ctrl + X, K -> close all other buffers (keep current one)
+- Ctrl + X, k -> close current window without its buffer
+- Ctrl + X, K -> close current window with its buffer
 
 -------------------------------------------------------------------------
 
