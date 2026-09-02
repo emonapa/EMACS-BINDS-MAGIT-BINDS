@@ -21,6 +21,25 @@
 
 -------------------------------------------------------------------------
 
+### Window navigation and management
+- Ctrl + C, Left arrow -> move to the window on the left
+- Ctrl + C, Right arrow -> move to the window on the right
+- Ctrl + C, Up arrow -> move to the window above
+- Ctrl + C, Down arrow -> move to the window below
+
+- Ctrl + C, W, arrow -> swap the contents of the current window with the neighboring window in that direction
+- Ctrl + C, W, D, arrow -> delete the neighboring window in that direction
+- Ctrl + C, W, M -> maximize the current window / press again to restore the previous layout
+- Ctrl + C, W, U -> restore the previous window layout (winner-undo)
+- Ctrl + C, W, R -> redo the reverted window layout change (winner-redo)
+- Ctrl + C, W, = -> balance the sizes of all windows
+
+- Directional commands work with any number and arrangement of windows; they do not require a regular grid.
+- If there is no window in the requested direction, focus stays in the current window.
+- Deleting a window does not kill its buffer; it only stops displaying it.
+
+-------------------------------------------------------------------------
+
 ## SELECTION & CLIPBOARD
 - Ctrl + Space -> start selecting region, then move cursor
 - Shift + arrows -> select text while moving

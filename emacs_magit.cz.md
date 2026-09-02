@@ -21,6 +21,25 @@
 
 -------------------------------------------------------------------------
 
+### Pohyb a správa oken
+- Ctrl + C, šipka vlevo -> přejít do okna vlevo
+- Ctrl + C, šipka vpravo -> přejít do okna vpravo
+- Ctrl + C, šipka nahoru -> přejít do okna nahoře
+- Ctrl + C, šipka dolů -> přejít do okna dole
+
+- Ctrl + C, W, šipka -> prohodí obsah aktuálního okna se sousedním oknem v daném směru
+- Ctrl + C, W, D, šipka -> smaže sousední okno v daném směru
+- Ctrl + C, W, M -> maximalizuje aktuální okno na celou plochu / dalším stiskem obnoví původní rozložení
+- Ctrl + C, W, U -> vrátí předchozí rozložení oken (winner-undo)
+- Ctrl + C, W, R -> znovu provede vrácenou změnu rozložení (winner-redo)
+- Ctrl + C, W, = -> vyrovná velikosti všech oken
+
+- Směrové příkazy fungují obecně pro libovolný počet a rozložení oken, nemusí jít o pravidelnou mřížku.
+- Pokud v daném směru žádné okno není, směrový pohyb zůstane v aktuálním okně.
+- Smazání okna nezabije jeho buffer, pouze ho přestane zobrazovat.
+
+-------------------------------------------------------------------------
+
 ## VÝBĚR & SCHRÁNKA
 - Ctrl + Mezerník -> začni označovat oblast, pak hýbej kurzorem
 - Shift + šipky -> označení textu za pochodu

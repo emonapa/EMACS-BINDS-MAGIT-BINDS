@@ -557,6 +557,70 @@ Kdyz je kurzor na konci radku, smaze newline."
 (global-set-key (kbd "<S-tab>") #'my/outdent-region)
 (global-set-key (kbd "<S-iso-lefttab>") #'my/outdent-region)
 
+
+;;; -------------------------------
+;;; Window management
+;;; -------------------------------
+
+(require 'windmove)
+(require 'winner)
+
+(winner-mode 1)
+
+;;; Rychly pohyb mezi windows
+;;
+;; winner-mode standardne pouziva C-c <left>/<right>,
+;; proto bindujeme primo jeho keymapu.
+(define-key winner-mode-map (kbd "C-c <left>")  #'windmove-left)
+(define-key winner-mode-map (kbd "C-c <right>") #'windmove-right)
+(define-key winner-mode-map (kbd "C-c <up>")    #'windmove-up)
+(define-key winner-mode-map (kbd "C-c <down>")  #'windmove-down)
+
+
+;;; Ostatni window operace
+(define-prefix-command 'my/window-map)
+(global-set-key (kbd "C-c w") 'my/window-map)
+
+;; Prohod aktualni window se sousednim
+(define-key my/window-map (kbd "<left>")  #'windmove-swap-states-left)
+(define-key my/window-map (kbd "<right>") #'windmove-swap-states-right)
+(define-key my/window-map (kbd "<up>")    #'windmove-swap-states-up)
+(define-key my/window-map (kbd "<down>")  #'windmove-swap-states-down)
+
+;; Smaz sousedni window
+(define-prefix-command 'my/window-delete-map)
+(define-key my/window-map (kbd "d") 'my/window-delete-map)
+
+(define-key my/window-delete-map (kbd "<left>")  #'windmove-delete-left)
+(define-key my/window-delete-map (kbd "<right>") #'windmove-delete-right)
+(define-key my/window-delete-map (kbd "<up>")    #'windmove-delete-up)
+(define-key my/window-delete-map (kbd "<down>")  #'windmove-delete-down)
+
+;; Winner historie
+(define-key my/window-map (kbd "u") #'winner-undo)
+(define-key my/window-map (kbd "r") #'winner-redo)
+
+;; Vyrovnej velikosti
+(define-key my/window-map (kbd "=") #'balance-windows)
+
+
+;;; Maximalizace aktualniho window
+(defvar my/window-maximize-configuration nil)
+
+(defun my/toggle-maximize-window ()
+  "Maximalizuj aktualni window, nebo obnov puvodni layout."
+  (interactive)
+  (if my/window-maximize-configuration
+      (let ((config my/window-maximize-configuration))
+        (setq my/window-maximize-configuration nil)
+        (set-window-configuration config))
+    (setq my/window-maximize-configuration
+          (current-window-configuration))
+    (delete-other-windows)))
+
+(define-key my/window-map (kbd "m") #'my/toggle-maximize-window)
+
+
 ;;; -------------------------------
 ;;; Magit
 ;;; -------------------------------
