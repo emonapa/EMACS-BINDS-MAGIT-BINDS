@@ -150,8 +150,7 @@
 -------------------------------------------------------------------------
 
 ## COMMANDS
-- Ctrl + X, T -> open new vertical window and terminal in it
-- Ctrl + X, t -> open vterm below, if it exists reuse existing one
+- Ctrl + X, t -> open new vertical window and terminal in it
 - Ctrl + J -> When I do not want the suggested option (the highlighted one)
 - Ctrl + C, p -> turn on markdown livestream in second window
 - Ctrl + C, c -> disabled, not used for org-capture

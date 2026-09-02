@@ -150,8 +150,7 @@
 -------------------------------------------------------------------------
 
 ## COMMANDY
-- Ctrl + X, T -> otevře nové vertikální okno a v něm nový terminál
-- Ctrl + X, t -> otevře dole vterm, pokud existuje tak použije existující
+- Ctrl + X, t -> otevře nové vertikální okno a v něm nový terminál
 - Ctrl + J -> Pokud nechci doporučenou nabídku (tu zvýrazněnou)
 - Ctrl + C, p -> Zapne markdown livestream v druhém okně
 - Ctrl + C, c -> vypnuté, nepoužívá se pro org-capture

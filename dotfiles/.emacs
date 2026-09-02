@@ -114,7 +114,7 @@
 
 
 ;;; -------------------------------
-;;; Vzhled
+;;; Vzhled, barvy
 ;;; -------------------------------
 (defun rc/get-default-font ()
   (cond
@@ -288,19 +288,8 @@
     (let ((default-directory dir))
       (vterm))))
 
-(defun my/vterm-reuse-or-create ()
-  "Otevri dole vterm; pokud existuje, reuse *vterm*, jinak vytvor novy."
-  (interactive)
-  (let* ((dir (or (and buffer-file-name (file-name-directory buffer-file-name))
-                  default-directory))
-         (vterm-buffer-name "vterm"))
-    (split-window-below)
-    (other-window 1)
-    (let ((default-directory dir))
-      (vterm))))
 
-(global-set-key (kbd "C-x t")  #'my/vterm-reuse-or-create)
-(global-set-key (kbd "C-x T")  #'my/vterm-new-here)
+(global-set-key (kbd "C-x t")  #'my/vterm-new-here)
 
 
 ;;; -------------------------------
@@ -345,11 +334,19 @@ Kdyz neni nic oznaceno, zapni vterm-copy-mode a nech uzivatele oznacit."
         (progn
           (kill-ring-save (region-beginning) (region-end))
           (deactivate-mark)
-          (message "✓ zkopirovano do kill-ringu/clipboardu"))
       (vterm-copy-mode 1)
-      (message "vterm-copy-mode ON → oznac text a stiskni M-w znovu pro kopii")))
   (define-key vterm-mode-map      (kbd "M-w") #'my/vterm-copy-region-or-enter-copy-mode)
   (define-key vterm-copy-mode-map (kbd "M-w") #'my/vterm-copy-region-or-enter-copy-mode))
+
+;;; -------------------------------
+;;; POHYB O SLOVO
+;;; -------------------------------
+(global-set-key (kbd "C-<right>") #'forward-symbol)
+
+(global-set-key (kbd "C-<left>")
+                (lambda ()
+                  (interactive)
+                  (forward-symbol -1)))
 
 ;;; -------------------------------
 ;;; IDO: nechci auto-merge podslozek
@@ -572,9 +569,16 @@ Kdyz je kurzor na konci radku, smaze newline."
 ;; winner-mode standardne pouziva C-c <left>/<right>,
 ;; proto bindujeme primo jeho keymapu.
 (define-key winner-mode-map (kbd "C-c <left>")  #'windmove-left)
+(define-key winner-mode-map (kbd "C-c C-<left>")  #'windmove-left)
+
 (define-key winner-mode-map (kbd "C-c <right>") #'windmove-right)
+(define-key winner-mode-map (kbd "C-c C-<right>") #'windmove-right)
+
 (define-key winner-mode-map (kbd "C-c <up>")    #'windmove-up)
+(define-key winner-mode-map (kbd "C-c C-<up>")    #'windmove-up)
+
 (define-key winner-mode-map (kbd "C-c <down>")  #'windmove-down)
+(define-key winner-mode-map (kbd "C-c C-<down>")  #'windmove-down)
 
 
 ;;; Ostatni window operace
@@ -884,11 +888,9 @@ Kdyz je kurzor na konci radku, smaze newline."
                         (ignore-errors (projectile-project-root)))
                    default-directory))
          (default-directory root))
-    (message "Generuji TAGS v %s ..." root)
     (shell-command
      "find . -type f \\( -name '*.c' -o -name '*.h' -o -name '*.cpp' -o -name '*.py' -o -name '*.el' \\) | etags -")
     (visit-tags-table (concat root "TAGS"))
-    (message "TAGS hotovo.")))
 
 (global-set-key (kbd "C-x e") #'my/create-or-refresh-etags)
 ;; Vypnout org-capture na C-c c
