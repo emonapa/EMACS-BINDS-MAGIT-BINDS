@@ -333,17 +333,22 @@ Kdyz neni nic oznaceno, zapni vterm-copy-mode a nech uzivatele oznacit."
     (if (use-region-p)
         (progn
           (kill-ring-save (region-beginning) (region-end))
-          (deactivate-mark)
-      (vterm-copy-mode 1)
-  (define-key vterm-mode-map      (kbd "M-w") #'my/vterm-copy-region-or-enter-copy-mode)
-  (define-key vterm-copy-mode-map (kbd "M-w") #'my/vterm-copy-region-or-enter-copy-mode))
+          (deactivate-mark))
+      (vterm-copy-mode 1)))
+
+  (define-key vterm-mode-map
+              (kbd "M-w")
+              #'my/vterm-copy-region-or-enter-copy-mode)
+  (define-key vterm-copy-mode-map
+              (kbd "M-w")
+              #'my/vterm-copy-region-or-enter-copy-mode))
 
 ;;; -------------------------------
 ;;; POHYB O SLOVO
 ;;; -------------------------------
 (global-set-key (kbd "C-<right>") #'forward-symbol)
 
-(global-set-key (kbd "C-<left>")
+(global-set-key (key "C-<left>")
                 (lambda ()
                   (interactive)
                   (forward-symbol -1)))
@@ -890,8 +895,9 @@ Kdyz je kurzor na konci radku, smaze newline."
          (default-directory root))
     (shell-command
      "find . -type f \\( -name '*.c' -o -name '*.h' -o -name '*.cpp' -o -name '*.py' -o -name '*.el' \\) | etags -")
-    (visit-tags-table (concat root "TAGS"))
+    (visit-tags-table (concat root "TAGS"))))
 
 (global-set-key (kbd "C-x e") #'my/create-or-refresh-etags)
+
 ;; Vypnout org-capture na C-c c
 (global-unset-key (kbd "C-c c"))
