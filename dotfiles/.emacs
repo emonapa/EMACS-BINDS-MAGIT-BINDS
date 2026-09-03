@@ -13,7 +13,13 @@
         ("melpa-stable" . "https://stable.melpa.org/packages/")
         ("melpa"   . "https://melpa.org/packages/")))
 (unless package--initialized (package-initialize))
-(unless package-archive-contents (package-refresh-contents))
+
+;; Na omezenych pocitacich pri startu nevyzaduj sit.
+;; Pro automatickou instalaci nastav na t pred nactenim tohoto souboru.
+(defvar rc/auto-install-packages nil)
+(when (and rc/auto-install-packages
+           (not package-archive-contents))
+  (ignore-errors (package-refresh-contents)))
 
 (require 'subr-x)
 (require 'seq)
@@ -89,7 +95,8 @@
          web-mode
          eglot)))
   (dolist (p packages-to-install)
-    (unless (package-installed-p p)
+    (unless (or (package-installed-p p)
+                (not rc/auto-install-packages))
       (ignore-errors (package-install p)))))
 
 ;; Lokalni cesty s tvymi mody
@@ -124,8 +131,14 @@
 
 (defun rc/set-first-available-font (fonts)
   "Vyber prvni dostupny font z FONTS (se jmenem vcetne velikosti)."
-  (when-let* ((name (seq-find (lambda (f) (find-font (font-spec :name f))) fonts)))
-    (add-to-list 'default-frame-alist `(font . ,name))))
+  (when-let* ((name
+               (and (display-graphic-p)
+                    (seq-find
+                     (lambda (f)
+                       (ignore-errors (find-font (font-spec :name f))))
+                     fonts))))
+    (ignore-errors (set-frame-font name nil t))
+    (add-to-list 'default-frame-alist (cons 'font name))))
 
 ;(rc/set-first-available-font
 ; '("Iosevka-20"
@@ -142,8 +155,6 @@
    "DejaVu Sans Mono-12"))
 
 
-(set-frame-font "JetBrains Mono-12" nil t)
-(add-to-list 'default-frame-alist '(font . "JetBrains Mono-12"))
 
 (tool-bar-mode 0)
 (menu-bar-mode 0)
@@ -159,7 +170,8 @@
 ;;(set-background-color "#1E1E1E")
 ;; (rc/require-theme 'zenburn)
 
-(load-theme 'kanagawa-wave t)
+(unless (ignore-errors (load-theme 'kanagawa-wave t) t)
+  (ignore-errors (load-theme 'wombat t)))
 ;; barva normalni fontu na bilou
 ;;(set-face-attribute 'default nil :foreground "#D4D4D4")
 (set-face-attribute 'default nil :foreground "#F2F2F2")
@@ -170,7 +182,8 @@
 (set-face-attribute 'font-lock-string-face nil :foreground "#86EFAC")
 (set-face-attribute 'font-lock-type-face nil :foreground "#2DD4BF")
 
-(set-face-attribute 'ansi-color-green nil :foreground "#4ADE80")
+(when (facep 'ansi-color-green)
+  (set-face-attribute 'ansi-color-green nil :foreground "#4ADE80"))
 
 ;; Priklad upravy faces pro zenburn (az kdyz je nacten):
 ;;(eval-after-load 'zenburn-theme
@@ -182,8 +195,10 @@
 (rc/require 'smex 'ido-completing-read+)
 (ido-mode 1)
 (ido-everywhere 1)
-(ido-ubiquitous-mode 1)
-(global-set-key (kbd "M-x") 'smex)
+(when (fboundp 'ido-ubiquitous-mode)
+  (ido-ubiquitous-mode 1))
+(global-set-key (kbd "M-x")
+                (if (fboundp 'smex) #'smex #'execute-extended-command))
 (global-set-key (kbd "C-c C-c M-x") 'execute-extended-command)
 
 ;;; -------------------------------
@@ -211,10 +226,13 @@
 ;;; Lokalni mody (z ~/.emacs.local)
 ;;; -------------------------------
 (dolist (m '(uxntal-mode basm-mode fasm-mode porth-mode noq-mode jai-mode simpc-mode c3-mode))
-  (ignore-errors (require m)))
-(add-to-list 'auto-mode-alist '("\\.asm\\'" . fasm-mode))
-(add-to-list 'auto-mode-alist '("\\.[hc]\\(pp\\)?\\'" . simpc-mode))
-(add-to-list 'auto-mode-alist '("\\.[b]\\'" . simpc-mode))
+  (ignore-errors (require
+m)))
+(when (fboundp 'fasm-mode)
+  (add-to-list 'auto-mode-alist '("\\.asm\\'" . fasm-mode)))
+(when (fboundp 'simpc-mode)
+  (add-to-list 'auto-mode-alist '("\\.[hc]\\(pp\\)?\\'" . simpc-mode))
+  (add-to-list 'auto-mode-alist '("\\.[b]\\'" . simpc-mode)))
 
 ;;; -------------------------------
 ;;; Whitespace + trim
@@ -275,7 +293,7 @@
 ;;; -------------------------------
 ;;; New window + vterm
 ;;; -------------------------------
-(use-package vterm :ensure t)
+(rc/require 'vterm)
 
 (defun my/vterm-new-here ()
   "Otevri novy, jednoznacne pojmenovany vterm dole v aktualnim adresari."
@@ -286,7 +304,9 @@
     (split-window-below)
     (other-window 1)
     (let ((default-directory dir))
-      (vterm))))
+      (if (fboundp 'vterm)
+          (vterm)
+        (shell (generate-new-buffer-name "*shell*"))))))
 
 
 (global-set-key (kbd "C-x t")  #'my/vterm-new-here)
@@ -348,7 +368,7 @@ Kdyz neni nic oznaceno, zapni vterm-copy-mode a nech uzivatele oznacit."
 ;;; -------------------------------
 (global-set-key (kbd "C-<right>") #'forward-symbol)
 
-(global-set-key (key "C-<left>")
+(global-set-key (kbd "C-<left>")
                 (lambda ()
                   (interactive)
                   (forward-symbol -1)))
@@ -629,6 +649,12 @@ Kdyz je kurzor na konci radku, smaze newline."
 
 (define-key my/window-map (kbd "m") #'my/toggle-maximize-window)
 
+;; Nové window horizontálně
+(global-set-key (kbd "C-x ě") #'split-window-below)
+
+;; Nové window vertikálně
+(global-set-key (kbd "C-x š") #'split-window-right)
+
 
 ;;; -------------------------------
 ;;; Magit
@@ -666,9 +692,10 @@ Kdyz je kurzor na konci radku, smaze newline."
 ;;; Yasnippet
 ;;; -------------------------------
 (rc/require 'yasnippet)
-(setq yas/triggers-in-field nil)
-(setq yas-snippet-dirs '("~/.emacs.snippets/"))
-(yas-global-mode 1)
+(when (fboundp 'yas-global-mode)
+  (setq yas/triggers-in-field nil
+        yas-snippet-dirs '("~/.emacs.snippets/"))
+  (yas-global-mode 1))
 
 ;;; -------------------------------
 ;;; Word-wrap v Markdownu
@@ -692,8 +719,9 @@ Kdyz je kurzor na konci radku, smaze newline."
 ;;; PowerShell
 ;;; -------------------------------
 (ignore-errors (require 'powershell))
-(add-to-list 'auto-mode-alist '("\\.ps1\\'" . powershell-mode))
-(add-to-list 'auto-mode-alist '("\\.psm1\\'" . powershell-mode))
+(when (fboundp 'powershell-mode)
+  (add-to-list 'auto-mode-alist '("\\.ps1\\'" . powershell-mode))
+  (add-to-list 'auto-mode-alist '("\\.psm1\\'" . powershell-mode)))
 
 ;;; -------------------------------
 ;;; Eldoc
@@ -704,18 +732,22 @@ Kdyz je kurzor na konci radku, smaze newline."
 ;;; Company (globalne), vypnout v tuareg
 ;;; -------------------------------
 (rc/require 'company)
-(global-company-mode)
-(add-hook 'tuareg-mode-hook (lambda () (company-mode 0)))
+(when (fboundp 'global-company-mode)
+  (global-company-mode)
+  (add-hook 'tuareg-mode-hook (lambda () (company-mode 0))))
 
 ;;; -------------------------------
 ;;; TypeScript + Tide + Flycheck
 ;;; -------------------------------
 (rc/require 'typescript-mode 'tide 'flycheck)
 (defun rc/turn-on-tide-and-flycheck ()
-  (tide-setup)
-  (flycheck-mode 1))
+  (when (fboundp 'tide-setup)
+    (tide-setup))
+  (when (fboundp 'flycheck-mode)
+    (flycheck-mode 1)))
 (add-hook 'typescript-mode-hook 'rc/turn-on-tide-and-flycheck)
-(add-to-list 'auto-mode-alist '("\\.mts\\'" . typescript-mode))
+(when (fboundp 'typescript-mode)
+  (add-to-list 'auto-mode-alist '("\\.mts\\'" . typescript-mode)))
 
 ;;; -------------------------------
 ;;; Proof General (Coq)
@@ -762,8 +794,8 @@ Kdyz je kurzor na konci radku, smaze newline."
 ;;; -------------------------------
 ;;; Nacti custom-file, pokud existuje
 ;;; -------------------------------
-(when (file-exists-p custom-file)
-  (load-file custom-file))
+(when (file-readable-p custom-file)
+  (ignore-errors (load custom-file nil 'nomessage)))
 
 ;;; -------------------------------
 ;;; Sipky pro prochazeni souboru
@@ -803,7 +835,8 @@ Kdyz je kurzor na konci radku, smaze newline."
 ;; web-mode uz je v balickach (viz packages-to-install)
 
 ;; Latte (.latte)
-(add-to-list 'auto-mode-alist '("\\.latte\\'" . web-mode))
+(when (fboundp 'web-mode)
+  (add-to-list 'auto-mode-alist '("\\.latte\\'" . web-mode)))
 
 (with-eval-after-load 'web-mode
   ;; Latte engine "smarty"
@@ -829,7 +862,8 @@ Kdyz je kurzor na konci radku, smaze newline."
 (add-hook 'web-mode-hook #'my/latte-extra-font-lock)
 
 ;; Vue (.vue) pres web-mode
-(add-to-list 'auto-mode-alist '("\\.vue\\'" . web-mode))
+(when (fboundp 'web-mode)
+  (add-to-list 'auto-mode-alist '("\\.vue\\'" . web-mode)))
 
 (with-eval-after-load 'web-mode
   (add-to-list 'web-mode-engines-alist '("vue" . "\\.vue\\'"))
@@ -844,13 +878,16 @@ Kdyz je kurzor na konci radku, smaze newline."
 
 (add-hook 'web-mode-hook
           (lambda ()
-            (when (and buffer-file-name (string-match-p "\\.vue\\'" buffer-file-name))
+            (when (and (fboundp 'eglot-ensure)
+                       buffer-file-name
+                       (string-match-p "\\.vue\\'" buffer-file-name))
               (eglot-ensure))))
 
 ;;; -------------------------------
 ;;; Markdown extra
 ;;; -------------------------------
-(add-to-list 'auto-mode-alist '("README\\.md\\'" . gfm-mode))
+(when (fboundp 'gfm-mode)
+  (add-to-list 'auto-mode-alist '("README\\.md\\'" . gfm-mode)))
 
 (setq markdown-command "pandoc -f gfm -t html5")
 
