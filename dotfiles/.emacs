@@ -258,7 +258,8 @@
   (add-to-list 'auto-mode-alist '("\\.asm\\'" . fasm-mode)))
 (when (rc/function-or-library-p 'simpc-mode "simpc-mode")
   (add-to-list 'auto-mode-alist '("\\.[hc]\\(pp\\)?\\'" . simpc-mode))
-  (add-to-list 'auto-mode-alist '("\\.[b]\\'" . simpc-mode)))
+  (add-to-list 'auto-mode-alist '("\\.[b]\\'" . simpc-mode))
+  (add-to-list 'auto-mode-alist '("\\.inc\\'" . simpc-mode)))
 
 ;;; -------------------------------
 ;;; Whitespace + trim
@@ -716,7 +717,41 @@ Kdyz je kurzor na konci radku, smaze newline."
 (require 'dired-x)
 (setq dired-omit-files (concat dired-omit-files "\\|^\\..+$"))
 (setq-default dired-dwim-target t)
-(setq dired-listing-switches "-alh")
+;(setq dired-listing-switches "-alh")
+
+(setq dired-listing-switches "-alhG")
+
+(defun my/dired-hide-unwanted-details ()
+  "V Diredu skryj group/other permissions a pocet hard linku."
+  (save-excursion
+    (goto-char (point-min))
+
+    (while (re-search-forward
+            "^\\([[:space:]]*\\)\\([bcdlps-]\\)\\([rwxStTs-]\\{3\\}\\)\\([rwxStTs-]\\{6\\}\\)\\([+. ]?\\)\\([[:space:]]+[0-9]+[[:space:]]+\\)"
+            nil t)
+
+      ;; Group + other permissions.
+      (let ((ov (make-overlay (match-beginning 4)
+                              (match-end 4))))
+        (overlay-put ov 'display "")
+        (overlay-put ov 'my-dired-hidden t))
+
+      ;; Pocet hard linku + mezery kolem nej.
+      ;; Vzdy je nahrad jednou mezerou.
+      (let ((ov (make-overlay (match-beginning 5)
+                              (match-end 5))))
+        (overlay-put ov 'display " ")
+        (overlay-put ov 'my-dired-hidden t)))))
+
+(defun my/dired-clean-hidden-details ()
+  "Smaz stare Dired overlaye a vytvor nove."
+  (remove-overlays (point-min) (point-max) 'my-dired-hidden t)
+  (my/dired-hide-unwanted-details))
+
+(add-hook 'dired-after-readin-hook #'my/dired-clean-hidden-details)
+
+
+
 (setq dired-mouse-drag-files t)
 (setq delete-by-moving-to-trash t)
 
