@@ -1,116 +1,115 @@
-## --Binds in EMACS--
+## --Keybindings in EMACS--
 
 ## SAVING & OPENING
-- Ctrl + X, Ctrl + S -> saves current file (save-buffer)
-- Ctrl + X, Ctrl + F -> open file
-- Ctrl + G -> cancel current command (escape)
+- Ctrl + x, Ctrl + s -> saves the current file (save-buffer)
+- Ctrl + x, Ctrl + f -> open file
+- Ctrl + g -> cancel the current command (escape)
 
 - When switching buffers, the file is automatically saved if it was modified
-- Ctrl + X, E -> generates / refreshes TAGS file for current project
 
 -------------------------------------------------------------------------
 
 ## BUFFERS & WINDOWS
-- Ctrl + X, Ctrl + B -> buffer list
-- Ctrl + X, 1 -> keep only current window
-- Ctrl + X, 0 -> close current window
-- Ctrl + X, O / Ctrl + Tab -> switch to another window
-- Ctrl + Shift + Tab -> switch to previous window
-- Ctrl + X, k -> close current window without its buffer
-- Ctrl + X, K -> close current window with its buffer
+- Ctrl + x, Ctrl + b -> buffer list
+- Ctrl + x, 1 -> keep only the current window
+- Ctrl + x, 0 -> close the current window
+- Ctrl + x, O / Ctrl + Tab -> move to another window
+- Ctrl + Shift + Tab -> move to the previous window
+- Ctrl + x, k -> close the current window without killing its buffer
+- Ctrl + x, K -> close the current window together with its buffer
 
 -------------------------------------------------------------------------
 
-### Window navigation and management
-- Ctrl + C, Left arrow -> move to the window on the left
-- Ctrl + C, Right arrow -> move to the window on the right
-- Ctrl + C, Up arrow -> move to the window above
-- Ctrl + C, Down arrow -> move to the window below
+### Window movement and management
+- Ctrl + c, left arrow -> move to the window on the left
+- Ctrl + c, right arrow -> move to the window on the right
+- Ctrl + c, up arrow -> move to the window above
+- Ctrl + c, down arrow -> move to the window below
 
-- Ctrl + C, W, arrow -> swap the contents of the current window with the neighboring window in that direction
-- Ctrl + C, W, D, arrow -> delete the neighboring window in that direction
-- Ctrl + C, W, M -> maximize the current window / press again to restore the previous layout
-- Ctrl + C, W, U -> restore the previous window layout (winner-undo)
-- Ctrl + C, W, R -> redo the reverted window layout change (winner-redo)
-- Ctrl + C, W, = -> balance the sizes of all windows
+- Ctrl + c, w, arrow -> swaps the contents of the current window with the neighboring window in the given direction
+- Ctrl + c, w, d, arrow -> deletes the neighboring window in the given direction
+- Ctrl + c, w, m -> maximizes the current window to the full frame / pressing again restores the previous layout
+- Ctrl + c, w, u -> restores the previous window layout (winner-undo)
+- Ctrl + c, w, r -> reapplies the reverted window layout change (winner-redo)
+- Ctrl + c, w, = -> equalizes the sizes of all windows
 
-- Directional commands work with any number and arrangement of windows; they do not require a regular grid.
-- If there is no window in the requested direction, focus stays in the current window.
-- Deleting a window does not kill its buffer; it only stops displaying it.
+- Directional commands work generally for any number and arrangement of windows; they do not need to form a regular grid.
+- If there is no window in the given direction, directional movement stays in the current window.
+- Deleting a window does not kill its buffer, it only stops displaying it.
 
 -------------------------------------------------------------------------
 
 ## SELECTION & CLIPBOARD
-- Ctrl + Space -> start selecting region, then move cursor
+- Ctrl + Space -> start selecting a region, then move the cursor
 - Shift + arrows -> select text while moving
-- Alt + W -> copy (to kill-ring)
-- Ctrl + W -> cut
-- Ctrl + Y -> paste (yank)
-- Ctrl + A -> select whole buffer
-- Alt + H -> select paragraph
-- Alt + K -> delete paragraph
+- Alt + w -> copy (to the kill ring)
+- Ctrl + w -> cut
+- Ctrl + y -> paste (yank)
+- Ctrl + a -> select the whole buffer
+- Alt + h -> select paragraph
+- Alt + k -> delete paragraph
 
-- Delete -> deletes character, or selected region without saving into kill-ring
-- Backspace -> deletes character backwards, or selected region without saving into kill-ring
-- Ctrl + K -> deletes from cursor to end of line without saving into kill-ring
+- Delete -> deletes a character, or the selected region without saving it to the kill ring
+- Backspace -> deletes a character backward, or the selected region without saving it to the kill ring
+- Ctrl + k -> deletes from the cursor to the end of the line without saving it to the kill ring
 
 -------------------------------------------------------------------------
 
 ## TEXT NAVIGATION
-- Alt + F -> one word forward
-- Alt + B -> one word backward
-- Ctrl + S -> search forward (incremental search)
-- Ctrl + R -> search backward
+- Alt + f -> one word forward
+- Alt + b -> one word backward
+- Ctrl + s -> search forward (incremental search)
+- Ctrl + r -> search backward
 
-- If something is selected, Ctrl + S / Ctrl + R searches for the selected text directly
+- If something is selected, Ctrl + s / Ctrl + r immediately searches for the selected text
 
-- Ctrl + V -> one screen forward
-- Alt + V -> one screen backward
+- Ctrl + v -> one screen forward
+- Alt + v -> one screen backward
 
 -------------------------------------------------------------------------
 
-## HELM / FAST SEARCH AND OPEN
-- Ctrl + C, H, F -> search files by pattern (regex) in current subtree
-- Ctrl + C, H, D -> browse directories / files (Helm “find files”)
-- Ctrl + C, H, R -> recently opened files
-- Ctrl + C, H, S -> search by file contents (ripgrep)
-- Ctrl + C, D -> duplicate current line or selected region
+## HELM / QUICK SEARCH AND OPEN
+- Ctrl + c, h, f -> searches for files by pattern (regex) in the current subtree
+- Ctrl + c, h, d -> browse directories / files (Helm "find files")
+- Ctrl + c, h, r -> recently opened files
+- Ctrl + c, h, s -> searches by file contents (ripgrep)
+- Ctrl + c, d -> duplicates the current line or selected region
 
-- Ctrl + C, H, T -> helm-projectile
-- Ctrl + C, H, G, G -> helm-git-grep
-- Ctrl + C, H, G, L -> helm-ls-git-ls
-- Ctrl + C, H, A -> helm-org-agenda-files-headings
+- Ctrl + c, h, t -> helm-projectile
+- Ctrl + c, h, g, g -> helm-git-grep
+- Ctrl + c, h, g, l -> helm-ls-git-ls
+- Ctrl + c, h, a -> helm-org-agenda-files-headings
 
 - In Helm find files:
-  - Left arrow -> go one directory up
+  - Left arrow -> one directory up
   - Right arrow -> open / persistent action
 
 -------------------------------------------------------------------------
 
 ## SWITCHING BETWEEN BUFFERS
-- Ctrl + X, Left arrow -> previous buffer (in history)
-- Ctrl + X, Right arrow -> next buffer
+- Ctrl + x, Left arrow -> previous buffer (in history)
+- Ctrl + x, Right arrow -> next buffer
 
 -------------------------------------------------------------------------
 
 ## MULTIPLE CURSORS
-- Ctrl + . -> add cursor to next match
-- Ctrl + , -> add cursor to previous match
-- Ctrl + Alt + . / , -> skip current match and continue
-- Ctrl + C, Ctrl + , -> select all matches
-- Ctrl + Shift + arrow down / up -> add another cursor one line down / up
-- Ctrl + Shift + C, Ctrl + Shift + C -> edit multiple lines at once
+- Ctrl + . -> add cursor at the next match
+- Ctrl + , -> add cursor at the previous match
+- Ctrl + Alt + . / , -> skip the current match and continue
+- Ctrl + c, Ctrl + , -> select all matches
+- Ctrl + Shift + down / up arrow -> add another cursor one line below / above
+- Ctrl + Shift + c, Ctrl + Shift + c -> edit multiple lines at once
 
 -------------------------------------------------------------------------
 
 ## LINE EDITING
-- Ctrl + Shift + Backspace -> delete whole line
-- Ctrl + Q, ) -> insert literal character “)” (quoted insert; works similarly for other characters)
-- Alt + p -> move current line up
-- Alt + n -> move current line down
+- Ctrl + Shift + Backspace -> delete the whole line
+- Ctrl + q, ) -> inserts the character ")" literally (quoted insert; works analogously for other characters)
+- Alt + p -> move the current line up
+- Alt + n -> move the current line down
 
-- Tab -> when text is selected, indent whole region right
-- Shift + Tab -> when text is selected, indent whole region left
+- Tab -> when text is selected, indent the whole region to the right
+- Shift + Tab -> when text is selected, indent the whole region to the left
 
 -------------------------------------------------------------------------
 
@@ -121,93 +120,65 @@
 -------------------------------------------------------------------------
 
 ## DIRED (INTERACTIVE FILE BROWSING)
-- Ctrl + X, D -> open files and directories interactively (Dired)
+- Ctrl + x, d -> opens files and directories interactively (Dired)
 
-- Ctrl + X, Ctrl + Q -> switch window into writable mode and rename files/directories
-  - Ctrl + C, Ctrl + C -> confirm
-  - Ctrl + C, Ctrl + K -> cancel
+- Ctrl + x, Ctrl + q -> switches the window into writable mode and allows renaming directories/files
+  - Ctrl + c, Ctrl + c -> confirm
+  - Ctrl + c, Ctrl + k -> cancel
 
-- Ctrl + X, Ctrl + F -> find file when I know exactly where it is
+- Ctrl + x, Ctrl + f -> find a file whose exact location I know
 
-- R -> rename
-- D -> delete (can be repeated multiple times and then confirmed)
-- Shift + U -> panic, cancels what I want to delete
-- X -> confirm
+- r -> rename
+- d -> delete (can be used multiple times and then confirmed)
+- Shift + u -> panic, cancels what I want to delete
+- x -> confirm
 
-- g -> refresh dired
-- Alt gr + A -> ~
+- g -> refresh Dired
+- Alt gr + a -> ~
 
-- Left arrow -> go one directory up
+- Left arrow -> one directory up
 - Right arrow -> open file / enter directory
 
 -------------------------------------------------------------------------
 
 ## IDO
-- Left arrow -> go one directory up
+- Left arrow -> one directory up
 - Right arrow -> confirm selection
-- IDO no longer auto-merges subdirectories
+- IDO no longer automatically merges subdirectories
 
 -------------------------------------------------------------------------
 
 ## COMMANDS
-- Ctrl + X, t -> open new vertical window and terminal in it
-- Ctrl + J -> When I do not want the suggested option (the highlighted one)
-- Ctrl + C, p -> turn on markdown livestream in second window
-- Ctrl + C, c -> disabled, not used for org-capture
+- Ctrl + j -> If I do not want the recommended option (the highlighted one)
 
 - M-x -> smex, better command menu
-- Ctrl + C, Ctrl + C, M-x -> normal execute-extended-command
+- M-Shift-: -> eval
+- Ctrl + c, Ctrl + c, M-x -> normal execute-extended-command
 
 -------------------------------------------------------------------------
 
 ## VTERM
-- Ctrl + X, t -> open vterm below, if it exists reuse existing one
-- Ctrl + X, T -> open new vterm below with unique name
-- Alt + W -> in vterm copy selected text
-- Alt + W -> when nothing is selected, enable vterm-copy-mode
-
--------------------------------------------------------------------------
-
-## EMACS LISP
-- Ctrl + C, Ctrl + J -> eval-print-last-sexp
-
--------------------------------------------------------------------------
-
-## PROGRAMMING
-- Line numbers are enabled globally
-- In vterm, dired and term line numbers are disabled
-- Python:
-  - uses 4 spaces
-  - Tab does no smart magic
-  - Enter does not autoindent
-- C/C++:
-  - indentation 4 spaces
-  - style bsd
-- Trailing whitespace is automatically deleted on save in most code modes
-- Markdown does not delete two spaces at end of line, so hard breaks can be used
+- Ctrl + x, t -> opens a new vertical window and a new terminal in it
+- Alt + w -> copies selected text in vterm
+- Alt + w -> if nothing is selected, enables vterm-copy-mode
 
 -------------------------------------------------------------------------
 
 ## MARKDOWN
-- Ctrl + C, p -> markdown-live-preview-mode
-- README.md opens as gfm-mode
-- Markdown preview uses pandoc
-
--------------------------------------------------------------------------
-
-## COQ / PROOF GENERAL
-- Ctrl + C, Ctrl + Q, Ctrl + N -> proof-assert-until-point-interactive
+- Ctrl + c, p -> markdown-live-preview-mode
 
 -------------------------------------------------------------------------
 
 ## TAGS
-- Ctrl + X, E -> create / refresh TAGS in current project
-- takes files:
+- Ctrl + x, e -> creates / refreshes TAGS in the current project next to .git
+- includes files:
   - *.c
   - *.h
   - *.cpp
   - *.py
   - *.el
+  - *.inc
+  - ignores files according to .gitignore
 
 <br>
 <br>
@@ -222,9 +193,9 @@
 
 --------------------------------------------------
 
-### Init and remote:
-1. create repo directory
-2. Alt + X magit-init
+### Initialization and remote:
+1. create repository directory
+2. Alt + x magit-init
 3. files...
 4. Ctrl+c, m, s -> magit-status
 5. stage file (***s***) -> commit (***c c***)
@@ -233,18 +204,18 @@
 
 --------------------------------------------------
 
-### Connecting local repo with github:
+### Connecting a local repository to GitHub:
 1. magit status (Ctrl + c, m, s)
 2. ***M*** (capital M)
-3. ***a*** -> name, e.g. "origin", paste SSH URL // Remote set
+3. ***a*** -> name, e.g. "origin", insert SSH URL // Remote configured
 4. ***P u***
-5. confirm that it should set origin/main
+5. confirm that it should be set as origin/main
 
 --------------------------------------------------
 
 ### Opening Magit:
-- Ctrl + C, m, s -> magit-status
-- Ctrl + C, m, l -> magit-log
+- Ctrl + c, m, s -> magit-status
+- Ctrl + c, m, l -> magit-log
 
 --------------------------------------------------
 
@@ -252,26 +223,26 @@
 - ***s***   -> stage file
 - ***S***   -> stage all
 - ***u***   -> unstage
-- ***U***   -> unstage everything
+- ***U***   -> unstage all
 
 - ***c c*** -> new commit
-- ***c a*** -> amend (add staged changes to last commit)
-- ***c w*** -> reword (change only last commit message)
+- ***c a*** -> amend (add staged changes to the last commit)
+- ***c w*** -> reword (change only the last commit message)
 - ***c f*** -> fixup commit
-- ***v***   -> revert (undoes commit by creating a new commit)
+- ***v***   -> revert (reverts a commit by creating a new commit)
 
 --------------------------------------------------
 
 ### Branching:
 - ***b b*** -> switch branch
-- ***b c*** -> create new branch
+- ***b c*** -> create a new branch
 - ***b u*** -> set upstream
 
 --------------------------------------------------
 
 ### Push/pull/fetch:
 - ***P u***  -> push to upstream
-- ***P -f*** -> push --force-with-lease (only when remote did not change)
+- ***P -f*** -> push --force-with-lease (only if remote has not changed)
 - ***f***    -> fetch
 - ***F***    -> pull (fetch + merge/rebase)
 
@@ -279,8 +250,8 @@
 
 ### Rebase/merge:
 - ***r u*** -> rebase onto upstream
-- ***r m*** -> rebase onto specific branch
-- ***r i*** -> interactive rebase (squash/fixup)
+- ***r m*** -> rebase onto a specific branch
+- ***r i*** -> interactive rebase (squash/fixup), followed by force push
 - ***r r*** -> continue (after conflict)
 - ***r a*** -> abort
 
@@ -290,67 +261,74 @@
 --------------------------------------------------
 
 ### Reset:
-- ***X h*** -> reset (hard) to another commit (locally, throws away changes)
+- ***X h*** -> reset (hard) to another commit (locally, discards changes)
 
 --------------------------------------------------
 
 ### Stash:
 - ***z z*** -> save stash
-- ***z a*** -> apply latest stash
+- ***z a*** -> apply the latest stash
 - ***z p*** -> pop (apply + delete stash)
 - ***z l*** -> list stashes
 
 --------------------------------------------------
 
 ### Conflicts (rebase/merge):
-- ***E m*** -> Ediff Merge on file in Unmerged
-- ***e*** -> in magit-status on file opens the file and starts smerge-ediff
+- ***E m*** -> Ediff Merge on a file in Unmerged
+- ***e*** -> in magit-status on a file, opens the file and starts smerge-ediff
 - ***a***/***b*** -> choose version
 - ***X c*** -> edit manually
 - ***q***   -> quit Ediff
-- (***s***) -> stage fixed file
+- (***s***) -> stage the fixed file
 - ***r r*** -> rebase continue
 
 --------------------------------------------------
 
 ### Blame:
-- M-x magit-blame (in opened file)
+- M-x magit-blame (in an open file)
 - ***n***/***p*** -> next/previous hunk
-- ***RET*** -> jump to commit in log
-- ***TAB*** -> line detail
+- ***RET*** -> jumps to the commit in the log
+- ***TAB*** -> line details
 
 --------------------------------------------------
 
-### Rest:
+### Misc:
 - ***l l*** -> commit tree
 - in magit-status ***Ctrl+Shift+Tab*** -> magit-section-cycle
-- M-x + smerge-ediff -> starts proper ediff on opened diff file
+- M-x + smerge-ediff -> starts a proper ediff on the open diff file
 
 --------------------------------------------------
+
 ### Rebase:
 ```text
 r u -> 1.) take commits from some branch and insert them into the current branch
-       2.) ediff the conflicts
+       2.) ediff conflicts
        3.) r r
-       4.) keep doing it until the conflicts disappear
-       5.) then the "Unmerged into main (1)" window will remain until you merge it (no need to do it right away)
-// if you don't merge, you can keep working however you want
-// then switch to main, press (m m)
-// optionally then in (l l) navigate to the first commit of all your potential commits,
-// and then switch all the ones below to "squash" using (s)
+       4.) keep doing this until the conflicts disappear
+       5.) then the "Unmerged into main (1)" window remains until I merge it (I do not have to do it immediately)
+
+// if I do not merge, I can continue working however I want
+// then switch to main, use (m m)
+// optionally then in (l l) move to the first commit of all our possible commits,
+// and then switch all the lower ones to "squash" using (s)
 ```
+
 - ***c w*** -> changes the message of the last commit  
 - ***r a*** -> abort the entire rebase  
+
 --------------------------------------------------
+
 ### Squashing commits in interactive rebase:
 ```text
-r i -> rebase commits, merges commits together, most commonly a fix/rebase commit.
-       in (l l) navigate to the commit you want to rebase, so that the TODO looks like this:
+r i -> rebase commits, combines commits together, most commonly fix/rebase commit.
+       in (l l), move to the commit I want to rebase so that TODO looks like this:
 pick  1b886da "main message"
 fixup a218acd "fix commit after (c f)"
-// so that fixup is at the bottom
+// so that fixup is below
 ```
+
 --------------------------------------------------
+
 ### The difference between merge and rebase is that merge creates a "bubble" and rebase does not:
 **MERGE:**
 ```text
@@ -383,5 +361,5 @@ before:  main:    A---B---C
          feature:            D'--E'
                ...
 after:   main:    A---B---C--D'--E'
-         feature:               E'
+         feature:                E'
 ```

@@ -243,13 +243,6 @@
 (electric-pair-mode 1)
 
 ;;; -------------------------------
-;;; Emacs Lisp drobnosti
-;;; -------------------------------
-(add-hook 'emacs-lisp-mode-hook
-          (lambda () (local-set-key (kbd "C-c C-j") 'eval-print-last-sexp)))
-(add-to-list 'auto-mode-alist '("Cask" . emacs-lisp-mode))
-
-;;; -------------------------------
 ;;; Lokalni mody (z ~/.emacs.local)
 ;;; -------------------------------
 (dolist (m '(uxntal-mode basm-mode fasm-mode porth-mode noq-mode jai-mode simpc-mode c3-mode))
@@ -834,15 +827,6 @@ Kdyz je kurzor na konci radku, smaze newline."
 (add-hook 'typescript-mode-hook 'rc/turn-on-tide-and-flycheck)
 (when (rc/function-or-library-p 'typescript-mode "typescript-mode")
   (add-to-list 'auto-mode-alist '("\\.mts\\'" . typescript-mode)))
-
-;;; -------------------------------
-;;; Proof General (Coq)
-;;; -------------------------------
-(rc/require 'proof-general)
-(add-hook 'coq-mode-hook
-          (lambda ()
-            (local-set-key (kbd "C-c C-q C-n")
-                           'proof-assert-until-point-interactive)))
 
 ;;; -------------------------------
 ;;; LaTeX

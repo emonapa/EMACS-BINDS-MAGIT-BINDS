@@ -1,38 +1,37 @@
 ## --Bindy v EMACSU--
 
 ## UKLÁDÁNÍ & OTEVŘENÍ
-- Ctrl + X, Ctrl + S -> uloží aktuální soubor (save-buffer)
-- Ctrl + X, Ctrl + F -> otevřít soubor
-- Ctrl + G -> zrušit aktuální příkaz (escape)
+- Ctrl + x, Ctrl + s -> uloží aktuální soubor (save-buffer)
+- Ctrl + x, Ctrl + f -> otevřít soubor
+- Ctrl + g -> zrušit aktuální příkaz (escape)
 
 - Při přepnutí bufferu se soubor automaticky uloží, pokud byl změněný
-- Ctrl + X, E -> vygeneruje / refreshne TAGS soubor pro aktuální projekt
 
 -------------------------------------------------------------------------
 
 ## BUFFERY & OKNA
-- Ctrl + X, Ctrl + B -> seznam bufferů
-- Ctrl + X, 1 -> ponechat jen aktuální okno
-- Ctrl + X, 0 -> zavřít aktuální okno
-- Ctrl + X, O / Ctrl + Tab -> přejít do jiného okna
+- Ctrl + x, Ctrl + b -> seznam bufferů
+- Ctrl + x, 1 -> ponechat jen aktuální okno
+- Ctrl + x, 0 -> zavřít aktuální okno
+- Ctrl + x, O / Ctrl + Tab -> přejít do jiného okna
 - Ctrl + Shift + Tab -> přejít do předchozího okna
-- Ctrl + X, k -> zavřít aktuální okno bez jeho bufferu
-- Ctrl + X, K -> zavřít aktuální okno s jeho bufferem
+- Ctrl + x, k -> zavřít aktuální okno bez jeho bufferu
+- Ctrl + x, K -> zavřít aktuální okno s jeho bufferem
 
 -------------------------------------------------------------------------
 
 ### Pohyb a správa oken
-- Ctrl + C, šipka vlevo -> přejít do okna vlevo
-- Ctrl + C, šipka vpravo -> přejít do okna vpravo
-- Ctrl + C, šipka nahoru -> přejít do okna nahoře
-- Ctrl + C, šipka dolů -> přejít do okna dole
+- Ctrl + c, šipka vlevo -> přejít do okna vlevo
+- Ctrl + c, šipka vpravo -> přejít do okna vpravo
+- Ctrl + c, šipka nahoru -> přejít do okna nahoře
+- Ctrl + c, šipka dolů -> přejít do okna dole
 
-- Ctrl + C, W, šipka -> prohodí obsah aktuálního okna se sousedním oknem v daném směru
-- Ctrl + C, W, D, šipka -> smaže sousední okno v daném směru
-- Ctrl + C, W, M -> maximalizuje aktuální okno na celou plochu / dalším stiskem obnoví původní rozložení
-- Ctrl + C, W, U -> vrátí předchozí rozložení oken (winner-undo)
-- Ctrl + C, W, R -> znovu provede vrácenou změnu rozložení (winner-redo)
-- Ctrl + C, W, = -> vyrovná velikosti všech oken
+- Ctrl + c, w, šipka -> prohodí obsah aktuálního okna se sousedním oknem v daném směru
+- Ctrl + c, w, d, šipka -> smaže sousední okno v daném směru
+- Ctrl + c, w, m -> maximalizuje aktuální okno na celou plochu / dalším stiskem obnoví původní rozložení
+- Ctrl + c, w, u -> vrátí předchozí rozložení oken (winner-undo)
+- Ctrl + c, w, r -> znovu provede vrácenou změnu rozložení (winner-redo)
+- Ctrl + c, w, = -> vyrovná velikosti všech oken
 
 - Směrové příkazy fungují obecně pro libovolný počet a rozložení oken, nemusí jít o pravidelnou mřížku.
 - Pokud v daném směru žádné okno není, směrový pohyb zůstane v aktuálním okně.
@@ -43,43 +42,43 @@
 ## VÝBĚR & SCHRÁNKA
 - Ctrl + Mezerník -> začni označovat oblast, pak hýbej kurzorem
 - Shift + šipky -> označení textu za pochodu
-- Alt + W -> kopírovat (do kill-ringu)
-- Ctrl + W -> vyjmout (cut)
-- Ctrl + Y -> vložit (yank)
-- Ctrl + A -> označit celý buffer
-- Alt + H -> označit paragraf
-- Alt + K -> smazat paragraf
+- Alt + w -> kopírovat (do kill-ringu)
+- Ctrl + w -> vyjmout (cut)
+- Ctrl + y -> vložit (yank)
+- Ctrl + a -> označit celý buffer
+- Alt + h -> označit paragraf
+- Alt + k -> smazat paragraf
 
 - Delete -> smaže znak, nebo označený region bez uložení do kill-ringu
 - Backspace -> smaže znak zpět, nebo označený region bez uložení do kill-ringu
-- Ctrl + K -> smaže od kurzoru do konce řádku bez uložení do kill-ringu
+- Ctrl + k -> smaže od kurzoru do konce řádku bez uložení do kill-ringu
 
 -------------------------------------------------------------------------
 
 ## NAVIGACE V TEXTU
-- Alt + F -> o slovo vpřed
-- Alt + B -> o slovo zpět
-- Ctrl + S -> hledání dopředu (incremental search)
-- Ctrl + R -> hledání dozadu
+- Alt + f -> o slovo vpřed
+- Alt + b -> o slovo zpět
+- Ctrl + s -> hledání dopředu (incremental search)
+- Ctrl + r -> hledání dozadu
 
-- Pokud je něco označené, Ctrl + S / Ctrl + R hledá rovnou označený text
+- Pokud je něco označené, Ctrl + s / Ctrl + r hledá rovnou označený text
 
-- Ctrl + V -> o obrazovku dopředu
-- Alt + V -> o obrazovku dozadu
+- Ctrl + v -> o obrazovku dopředu
+- Alt + v -> o obrazovku dozadu
 
 -------------------------------------------------------------------------
 
 ## HELM / RYCHLÉ HLEDÁNÍ A OTEVŘENÍ
-- Ctrl + C, H, F -> hledá soubory podle vzoru (regex) v aktuálním podstromu
-- Ctrl + C, H, D -> procházení složek / souborů (Helm „find files“)
-- Ctrl + C, H, R -> naposledy otevřené soubory (recent)
-- Ctrl + C, H, S -> hledá podle obsahu souborů (ripgrep)
-- Ctrl + C, D -> duplikuje aktuální řádek nebo označený region
+- Ctrl + c, h, f -> hledá soubory podle vzoru (regex) v aktuálním podstromu
+- Ctrl + c, h, d -> procházení složek / souborů (Helm „find files“)
+- Ctrl + c, h, r -> naposledy otevřené soubory (recent)
+- Ctrl + c, h, s -> hledá podle obsahu souborů (ripgrep)
+- Ctrl + c, d -> duplikuje aktuální řádek nebo označený region
 
-- Ctrl + C, H, T -> helm-projectile
-- Ctrl + C, H, G, G -> helm-git-grep
-- Ctrl + C, H, G, L -> helm-ls-git-ls
-- Ctrl + C, H, A -> helm-org-agenda-files-headings
+- Ctrl + c, h, t -> helm-projectile
+- Ctrl + c, h, g, g -> helm-git-grep
+- Ctrl + c, h, g, l -> helm-ls-git-ls
+- Ctrl + c, h, a -> helm-org-agenda-files-headings
 
 - V Helm find files:
   - Šipka vlevo -> o adresář výš
@@ -88,8 +87,8 @@
 -------------------------------------------------------------------------
 
 ## PŘEPÍNÁNÍ MEZI BUFFERY
-- Ctrl + X, Levá šipka -> předchozí buffer (v historii)
-- Ctrl + X, Pravá šipka -> následující buffer
+- Ctrl + x, Levá šipka -> předchozí buffer (v historii)
+- Ctrl + x, Pravá šipka -> následující buffer
 
 -------------------------------------------------------------------------
 
@@ -97,15 +96,15 @@
 - Ctrl + . -> přidej kurzor na další shodu
 - Ctrl + , -> přidej kurzor na předchozí shodu
 - Ctrl + Alt + . / , -> přeskoč aktuální shodu a pokračuj
-- Ctrl + C, Ctrl + , -> označ všechny shody
+- Ctrl + c, Ctrl + , -> označ všechny shody
 - Ctrl + Shift + šipka dolů / nahoru -> přidá další kurzor o řádek níž / výš
-- Ctrl + Shift + C, Ctrl + Shift + C -> editace více řádků najednou
+- Ctrl + Shift + c, Ctrl + Shift + c -> editace více řádků najednou
 
 -------------------------------------------------------------------------
 
 ## ÚPRAVY ŘÁDKŮ
 - Ctrl + Shift + Backspace -> smazat celý řádek
-- Ctrl + Q, ) -> vloží doslova znak „)“ (quoted insert; funguje analogicky i pro jiné znaky)
+- Ctrl + q, ) -> vloží doslova znak „)“ (quoted insert; funguje analogicky i pro jiné znaky)
 - Alt + p -> posune aktuální řádek nahoru
 - Alt + n -> posune aktuální řádek dolů
 
@@ -121,21 +120,21 @@
 -------------------------------------------------------------------------
 
 ## DIRED (INTERAKTIVNÍ PROCHÁZENÍ SOUBORŮ)
-- Ctrl + X, D -> otevře interaktivně soubory a složky (Dired)
+- Ctrl + x, d -> otevře interaktivně soubory a složky (Dired)
 
-- Ctrl + X, Ctrl + Q -> přepne okno do writable režimu a může přejmenovávat složky/soubory
-  - Ctrl + C, Ctrl + C -> potvrďit
-  - Ctrl + C, Ctrl + K -> zrušit
+- Ctrl + x, Ctrl + q -> přepne okno do writable režimu a může přejmenovávat složky/soubory
+  - Ctrl + c, Ctrl + c -> potvrďit
+  - Ctrl + c, Ctrl + k -> zrušit
 
-- Ctrl + X, Ctrl + F -> najdu si soubor o kterém vím kde přesně se nachází
+- Ctrl + x, Ctrl + f -> najdu si soubor o kterém vím kde přesně se nachází
 
-- R -> rename
-- D -> delete (můžu i víckrát a potom potvrdit)
-- Shift + U -> panic, zruší co chci vymazat
-- X -> potvrdit
+- r -> rename
+- d -> delete (můžu i víckrát a potom potvrdit)
+- Shift + u -> panic, zruší co chci vymazat
+- x -> potvrdit
 
 - g -> refresh diredu
-- Alt gr + A -> ~
+- Alt gr + a -> ~
 
 - Šipka vlevo -> o adresář výš
 - Šipka vpravo -> otevřít soubor / vstoupit do složky
@@ -150,64 +149,36 @@
 -------------------------------------------------------------------------
 
 ## COMMANDY
-- Ctrl + X, t -> otevře nové vertikální okno a v něm nový terminál
-- Ctrl + J -> Pokud nechci doporučenou nabídku (tu zvýrazněnou)
-- Ctrl + C, p -> Zapne markdown livestream v druhém okně
-- Ctrl + C, c -> vypnuté, nepoužívá se pro org-capture
+- Ctrl + j -> Pokud nechci doporučenou nabídku (tu zvýrazněnou)
 
 - M-x -> smex, lepší nabídka commandů
-- Ctrl + C, Ctrl + C, M-x -> normální execute-extended-command
+- M-Shift-: -> eval
+- Ctrl + c, Ctrl + c, M-x -> normální execute-extended-command
 
 -------------------------------------------------------------------------
 
 ## VTERM
-- Ctrl + X, t -> otevře dole vterm, pokud existuje tak použije existující
-- Ctrl + X, T -> otevře dole nový vterm s unikátním jménem
-- Alt + W -> ve vtermu zkopíruje označený text
-- Alt + W -> když není nic označené, zapne vterm-copy-mode
-
--------------------------------------------------------------------------
-
-## EMACS LISP
-- Ctrl + C, Ctrl + J -> eval-print-last-sexp
-
--------------------------------------------------------------------------
-
-## PROGRAMOVÁNÍ
-- Číslování řádků je globálně zapnuté
-- Ve vtermu, diredu a termu se číslování řádků vypíná
-- Python:
-  - používá 4 mezery
-  - Tab nedělá žádnou chytrou magii
-  - Enter neautoindentuje
-- C/C++:
-  - odsazení 4 mezery
-  - styl bsd
-- Automaticky se maže trailing whitespace při uložení ve většině code modů
-- Markdown nemaže dvě mezery na konci řádku, aby šly používat hard breaky
+- Ctrl + x, t -> otevře nové vertikální okno a v něm nový terminál
+- Alt + w -> ve vtermu zkopíruje označený text
+- Alt + w -> když není nic označené, zapne vterm-copy-mode
 
 -------------------------------------------------------------------------
 
 ## MARKDOWN
-- Ctrl + C, p -> markdown-live-preview-mode
-- README.md se otevírá jako gfm-mode
-- Markdown preview používá pandoc
-
--------------------------------------------------------------------------
-
-## COQ / PROOF GENERAL
-- Ctrl + C, Ctrl + Q, Ctrl + N -> proof-assert-until-point-interactive
+- Ctrl + c, p -> markdown-live-preview-mode
 
 -------------------------------------------------------------------------
 
 ## TAGS
-- Ctrl + X, E -> vytvoří / refreshne TAGS v aktuálním projektu
+- Ctrl + x, e -> vytvoří / refreshne TAGS v aktuálním projektu vedle .git
 - bere soubory:
   - *.c
   - *.h
   - *.cpp
   - *.py
   - *.el
+  - *.inc
+  - ignoruje soubory podle .gitignore
 
 <br>
 <br>
@@ -224,7 +195,7 @@
 
 ### Inicializace a remote:
 1. vytvořit složku repa
-2. Alt + X magit-init
+2. Alt + x magit-init
 3. soubory...
 4. Ctrl+c, m, s -> magit-status
 5. stage soubor (***s***) -> commit (***c c***)
@@ -243,8 +214,8 @@
 --------------------------------------------------
 
 ### Magit otevření:
-- Ctrl + C, m, s -> magit-status
-- Ctrl + C, m, l -> magit-log
+- Ctrl + c, m, s -> magit-status
+- Ctrl + c, m, l -> magit-log
 
 --------------------------------------------------
 
@@ -280,7 +251,7 @@
 ### Rebase/merge:
 - ***r u*** -> rebase na upstream
 - ***r m*** -> rebase na konkrétní branch
-- ***r i*** -> interactive rebase (squash/fixup)
+- ***r i*** -> interactive rebase (squash/fixup), následně -force push
 - ***r r*** -> continue (po konfliktu)
 - ***r a*** -> abort
 
