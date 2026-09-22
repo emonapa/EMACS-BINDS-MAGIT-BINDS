@@ -139,6 +139,8 @@
 - Šipka vlevo -> o adresář výš
 - Šipka vpravo -> otevřít soubor / vstoupit do složky
 
+- /ssh:user@server:/cesta -> připojení dired na ssh
+
 -------------------------------------------------------------------------
 
 ## IDO

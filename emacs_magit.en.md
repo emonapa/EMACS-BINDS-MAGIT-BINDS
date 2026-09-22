@@ -139,6 +139,8 @@
 - Left arrow -> one directory up
 - Right arrow -> open file / enter directory
 
+- /ssh:user@server:/path -> connect dired to ssh
+
 -------------------------------------------------------------------------
 
 ## IDO
