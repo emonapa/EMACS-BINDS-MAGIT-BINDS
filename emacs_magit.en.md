@@ -140,6 +140,7 @@
 - Right arrow -> open file / enter directory
 
 - /ssh:user@server:/path -> connect dired to ssh
+- Ctrl + o -> hides hidden files
 
 -------------------------------------------------------------------------
 

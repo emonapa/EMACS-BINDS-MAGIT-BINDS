@@ -140,6 +140,7 @@
 - Šipka vpravo -> otevřít soubor / vstoupit do složky
 
 - /ssh:user@server:/cesta -> připojení dired na ssh
+- Ctrl + o -> skryje skryté soubory
 
 -------------------------------------------------------------------------
 

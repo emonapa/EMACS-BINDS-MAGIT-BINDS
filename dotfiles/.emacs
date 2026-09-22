@@ -708,9 +708,14 @@ Kdyz je kurzor na konci radku, smaze newline."
 ;;; Dired
 ;;; -------------------------------
 (require 'dired-x)
-(setq dired-omit-files (concat dired-omit-files "\\|^\\..+$"))
 (setq-default dired-dwim-target t)
-;(setq dired-listing-switches "-alh")
+
+
+(setq dired-omit-files (concat dired-omit-files "\\|^\\..+$"))
+;; C-c o = zobrazit/skryt skryte soubory
+(with-eval-after-load 'dired
+  (define-key dired-mode-map (kbd "C-c o") #'dired-omit-mode))
+
 
 (setq dired-listing-switches "-alhG")
 
