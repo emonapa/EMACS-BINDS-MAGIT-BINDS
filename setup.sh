@@ -1,6 +1,14 @@
 #!/usr/bin/env bash
 set -e
 
+# vterm need those packages
+sudo apt update
+sudo apt install -y \
+    build-essential \
+    cmake \
+    libtool-bin \
+    libvterm-dev
+
 DIR="$(cd "$(dirname "$0")" && pwd)"
 TARGET="$(dirname "$DIR")"
 
