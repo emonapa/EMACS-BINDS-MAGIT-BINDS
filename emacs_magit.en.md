@@ -39,6 +39,15 @@
 
 -------------------------------------------------------------------------
 
+### TABS
+- Ctrl + c, t, Right Arrow -> switch to the TAB on the right
+- Ctrl + c, t, Left Arrow -> switch to the TAB on the left
+- M-x tab-bar-mode -> toggle the TAB bar at the top
+- M-x tab-new -> create a new TAB
+- M-x tab-close -> close the current TAB
+
+-------------------------------------------------------------------------
+
 ## SELECTION & CLIPBOARD
 - Ctrl + Space -> start selecting a region, then move the cursor
 - Shift + arrows -> select text while moving

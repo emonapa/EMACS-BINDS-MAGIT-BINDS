@@ -39,6 +39,16 @@
 
 -------------------------------------------------------------------------
 
+### TABY
+- Ctrl + c, t, šipka vpravo -> přejde na TAB vpravo
+- Ctrl + c, t, šipka vlevo -> přejde na TAB vlevo
+- M-x tab-bar-mode -> vypne/zapne TABY nahoře
+- M-x tab-new -> vytvoří nový TAB
+- M-x tab-close -> zavře TAB
+
+-------------------------------------------------------------------------
+
+
 ## VÝBĚR & SCHRÁNKA
 - Ctrl + Mezerník -> začni označovat oblast, pak hýbej kurzorem
 - Shift + šipky -> označení textu za pochodu

@@ -678,6 +678,38 @@ Kdyz je kurzor na konci radku, smaze newline."
 ;; Vyrovnej velikosti
 (define-key my/window-map (kbd "=") #'balance-windows)
 
+;;;;;;;;;;;
+;;; TABS;;;
+;;;;;;;;;;;
+;; Prepinani tabu pres C-t + sipky
+(global-set-key (kbd "C-c t <right>") #'tab-next)
+(global-set-key (kbd "C-c t <left>")  #'tab-previous)
+
+;; Zapni tab bar
+(tab-bar-mode 1)
+
+;;;;;;;;;;;;;;;;;
+;;; TABS BARVY;;;
+;;;;;;;;;;;;;;;;;
+;; Vzhled tab baru
+(set-face-attribute 'tab-bar nil
+                    :background "#16161D"
+                    :foreground "#F2F2F2"
+                    :box nil)
+
+;; Aktivni tab
+(set-face-attribute 'tab-bar-tab nil
+                    :background "#24242E"
+                    :foreground "#F2F2F2"
+                    :weight 'bold
+                    :box nil)
+
+;; Neaktivni taby
+(set-face-attribute 'tab-bar-tab-inactive nil
+                    :background "#1B1B23"
+                    :foreground "#F2F2F2"
+                    :box nil)
+
 
 ;;; Maximalizace aktualniho window
 (defvar my/window-maximize-configuration nil)
@@ -757,6 +789,13 @@ Kdyz je kurzor na konci radku, smaze newline."
 (setq dired-recursive-deletes 'always)
 
 (setq dired-clean-confirm-killing-deleted-buffers nil)
+
+
+;;; -------------------------------
+;;; Title
+;;; -------------------------------
+(setq frame-title-format
+      '("%b - EMACS with demonpapa"))
 
 ;;; -------------------------------
 ;;; Helm (+ git grep)
