@@ -733,6 +733,8 @@ Kdyz je kurzor na konci radku, smaze newline."
 ;;; -------------------------------
 (rc/require 'cl-lib 'magit)
 (setq magit-auto-revert-mode nil)
+;; Nezobrazovat warning o dlouhych radcich
+(setq magit-show-long-lines-warning nil)
 (global-set-key (kbd "C-c m s") 'magit-status)
 (global-set-key (kbd "C-c m l") 'magit-log)
 
@@ -1041,62 +1043,40 @@ Kdyz je kurzor na konci radku, smaze newline."
 ;;; VIBE CODED CREATION OF TAGS BASED ON GITIGNORE
 ;;;
 (defun my/create-or-refresh-etags ()
-  "Vytvori nebo refreshne TAGS v koreni aktualniho Git repozitare.
-
-Pouziva `git ls-files`, takze respektuje:
-- .gitignore
-- .git/info/exclude
-- globalni Git ignore pravidla
-
-Do TAGS zahrne jak trackovane, tak netrackovane neignorovane soubory."
+  "Vytvori nebo refreshne TAGS v koreni aktualniho Git repozitare."
   (interactive)
+
   (let ((root (locate-dominating-file default-directory ".git")))
     (unless root
       (user-error "Nejsem uvnitr Git repozitare"))
 
     (let ((default-directory root)
-          (extensions '("*.c"
-                        "*.h"
-                        "*.cpp"
-                        "*.hpp"
-                        "*.cc"
-                        "*.py"
-                        "*.el")))
-      (with-temp-buffer
-        ;; -c = cached, tj. trackovane soubory
-        ;; -o = others, tj. netrackovane soubory
-        ;; --exclude-standard = respektuj .gitignore atd.
-        (let ((status
-               (apply #'process-file
-                      "git"
-                      nil
-                      t
-                      nil
-                      "ls-files"
-                      "-co"
-                      "--exclude-standard"
-                      "--"
-                      extensions)))
-          (unless (zerop status)
-            (user-error "git ls-files selhal")))
+          (cmd
+           (concat
+            "git ls-files -co --exclude-standard -- "
+            "'*.c' '*.h' '*.cpp' '*.hpp' '*.cc' "
+            "'*.py' '*.el' "
+            "| etags -")))
 
-        ;; Obsah bufferu je seznam souboru.
-        ;; Predame ho etags pres stdin.
-        (let ((status
-               (call-process-region
-                (point-min)
-                (point-max)
-                "etags"
-                nil
-                "*etags-output*"
-                nil
-                "-")))
-          (unless (zerop status)
-            (user-error "etags selhal")))))
+      (let ((status
+             (process-file
+              "sh"
+              nil
+              "*etags-output*"
+              nil
+              "-c"
+              cmd)))
 
-    (visit-tags-table (expand-file-name "TAGS" root))
-    (message "TAGS vytvoreno v %s" root)))
+        (unless (zerop status)
+          (pop-to-buffer "*etags-output*")
+          (user-error "Vytvoreni TAGS selhalo"))))
 
+    (let ((tags-file (expand-file-name "TAGS" root)))
+      (unless (file-exists-p tags-file)
+        (user-error "etags skoncil, ale %s nevznikl" tags-file))
+
+      (visit-tags-table tags-file)
+      (message "TAGS vytvoreno v %s" root))))
 
 (global-set-key (kbd "C-x e") #'my/create-or-refresh-etags)
 
